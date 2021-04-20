@@ -1,4 +1,3 @@
-import 'react-native-gesture-handler';
 import React from 'react';
 import {NavigationContainer } from '@react-navigation/native';
 import {createStackNavigator } from '@react-navigation/stack';
@@ -13,12 +12,12 @@ export default function App() {
         <Stack.Screen
           name="Login"
           component={Login}
-          options={{title: 'Ventana login'}}
+          //options={{title: 'Ventana login'}}
         />
         <Stack.Screen
         name="Register"
         component={Register}
-        options={{title:'Ventana registro'}}
+        //options={{title:'Ventana registro'}}
         />
       </Stack.Navigator>
     </NavigationContainer>
