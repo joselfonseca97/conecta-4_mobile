@@ -3,7 +3,8 @@ import 'react-native';
 import 'react-native-gesture-handler';
 import { View, Text, Button, TextInput } from 'react-native'
 import style from '../Styles/Login_styles'
-
+import md5 from 'md5'
+const users = require('../Utilities/Usuarios')
 import fetch from 'node-fetch' //necesario para el backend
 
 export default class Login extends Component {
@@ -28,25 +29,26 @@ export default class Login extends Component {
         }
         //Checked Successfully
         //Do whatever you want
-        this.getUsuariosBD();
+        this.logIn();
     }
 
-    getUsuariosBD = async () => {
-        const url = 'http://localhost:4000/api/getUsuarios' //por el momento solo en web. Se puede cambiar a la direccion de Android
-
-        var md5 = require("md5"); //HACERLO POR EL md5: npm i md5 Y npm i react-native-md5
+    logIn = async () => {
+        //const url = 'http://localhost:4000/api/getUsuarios' //por el momento solo en web. Se puede cambiar a la direccion de Android
         try {
-            const response = await fetch(url);
-            let data = await response.json(); // arreglo con los usuarios
+            let flag = false
+            let data = await users.getUsers()   //response.json(); // arreglo con los usuarios
             console.log(data)
             for (var key in data) {
-                if (this.state.username.trim() === data[key].username) { // if user exists        
+                if (this.state.username.trim() === data[key].username) { // if user exists
+                    flag=true        
                     if (md5(this.state.password.trim()) === data[key].password) { // if correct password 
                         this.props.navigation.navigate('MenuPrincipal')      
                     } else {
                         alert("¡Su contraseña es incorrecta!");
                     }
                 }
+            }if(!flag){
+                alert("This user is not registered")
             }
             
         } catch (error) {
