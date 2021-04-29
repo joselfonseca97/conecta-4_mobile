@@ -3,6 +3,8 @@ import {NavigationContainer } from '@react-navigation/native';
 import {createStackNavigator } from '@react-navigation/stack';
 import Login from '../src/Views/Login';
 import Register from '../src/Views/Register';
+import MenuPrincipal from '../src/Views/MenuPrincipal';
+
 const Stack = createStackNavigator();
 
 export default function App() {
@@ -18,6 +20,11 @@ export default function App() {
         name="Register"
         component={Register}
         //options={{title:'Ventana registro'}}
+        />
+        <Stack.Screen
+          name="MenuPrincipal"
+          component={MenuPrincipal}
+        //options={{title:'Ventana Principal'}}
         />
       </Stack.Navigator>
     </NavigationContainer>
