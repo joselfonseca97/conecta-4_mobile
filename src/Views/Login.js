@@ -1,19 +1,105 @@
 import React, { Component } from 'react'
-import { View, StyleSheet, Text, Button } from 'react-native'
+import 'react-native';
+import 'react-native-gesture-handler';
+import { View, Text, Button, TextInput } from 'react-native'
 import style from '../Styles/Login_styles'
 
+import fetch from 'node-fetch' //necesario para el backend
 
 export default class Login extends Component {
+    constructor() {
+        super();
+        this.state = {
+            username: '',
+            password: ''
+        }
+    }
+
+    checkTextInput = () => {
+        //Check the TextInput
+        if (!this.state.username.trim()) {
+            alert('Porfavor Ingresar Usuario');
+            return;
+        }
+        //Check the TextInput
+        if (!this.state.password.trim()) {
+            alert('Porfavor Ingresar Contraseña');
+            return;
+        }
+        //Checked Successfully
+        //Do whatever you want
+        this.getUsuariosBD();
+    }
+
+    getUsuariosBD = async () => {
+        const url = 'http://localhost:4000/api/getUsuarios' //por el momento solo en web. Se puede cambiar a la direccion de Android
+
+        var md5 = require("md5"); //HACERLO POR EL md5: npm i md5 Y npm i react-native-md5
+        try {
+            const response = await fetch(url);
+            let data = await response.json(); // arreglo con los usuarios
+            console.log(data)
+            for (var key in data) {
+                if (this.state.username.trim() === data[key].username) { // if user exists        
+                    if (md5(this.state.password.trim()) === data[key].password) { // if correct password 
+                        this.props.navigation.navigate('MenuPrincipal')      
+                    } else {
+                        alert("¡Su contraseña es incorrecta!");
+                    }
+                }
+            }
+            
+        } catch (error) {
+            alert("A ocurrido un error inesperado");
+        }
+
+    }
 
     render() {
+
         return (
+            
             <View style={style.mainContainer}>
-                <Text>I'm a login screen</Text>
+                <Text style={style.logo}>Conecta_4</Text>
+                <Text></Text>
+                <Text></Text>
+                <View style={style.inputView}>
+                    <TextInput placeholder=" Ingrese su usuario"
+                        style={style.inputText}
+                        onChangeText={text => this.setState({ username: text })} />
+                </View>
+
+                <Text></Text>
+                <Text></Text>
+                <View style={style.inputView}>
+                    <TextInput placeholder=" Ingrese su contraseña"
+                        style={style.inputText}
+                        secureTextEntry={true}
+                        password={true}
+                        onChangeText={text => this.setState({ password: text })} />
+                </View>
+
+                <Text></Text>
+
                 <Button
-                    title="Go to register"
+                    style={style.loginText}
+                    title="Iniciar Sesion"
+                    style={style.loginBtn}
+                    onPress={this.checkTextInput}
+                />
+                <Text></Text>
+
+                <Button
+                    title="Registrarse"
                     onPress={() => this.props.navigation.navigate('Register')}
                 />
+
+                <Text>OR</Text>
+
             </View>
+
         )
+
     }
+
 }
