@@ -7,13 +7,10 @@ export default StyleSheet.create({
         backgroundColor: '#fff',
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: 'green'
     },
     secondaryContainer: {
-        width: wp(90),
+        width: wp(100),
         height: hp(80),
-        borderColor: 'blue',
-        borderWidth: 1,
         padding: wp(8)
     },
     registroText: {
@@ -22,32 +19,48 @@ export default StyleSheet.create({
         textAlign: 'center',
         marginBottom: hp(5),
     },
-    loginButton: {
+    buttonContainers: {
         marginBottom: hp(1),
-        backgroundColor: 'red'
+        borderRadius: 50,
     },
     inputStyle: {
         marginBottom: hp(5),
-        borderColor: 'blue',
+        borderColor: 'black',
         borderWidth: 1,
-        backgroundColor: 'rgba(255, 255, 255, 0.2)',
-        borderRadius:50,
-        textAlign:'center'
+        backgroundColor: 'rgba(255, 255, 255, 0.3)',
+        borderRadius: 50,
+        textAlign: 'center'
     },
     modal: {
-        flex:1,
+        flex: 1,
         backgroundColor: 'red',
-        alignItems:'baseline',
-        justifyContent:'space-evenly'
+        alignItems: 'baseline',
+        justifyContent: 'space-evenly'
     },
-    modalScrollView:{
-        position:'relative',
-        flexDirection:'column',
-        flex:1,
-        display:'flex',
+    modalScrollView: {
+        position: 'relative',
+        flexDirection: 'column',
+        flex: 1,
+        display: 'flex',
     },
     modalButton: {
         flex: 1,
         justifyContent: 'flex-end'
+    },
+    loading: {
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        opacity: 0.7,
+        backgroundColor: 'black',
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    backGroundImage: {
+        flex: 1,
+        justifyContent: 'center',
+        resizeMode: 'cover'
     }
 })
