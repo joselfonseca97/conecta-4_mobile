@@ -27,8 +27,22 @@ export default StyleSheet.create({
         height: 100, */
         marginBottom: 15,
         alignSelf: 'center',
-        marginTop: 60,
+        marginTop: 20,
         marginBottom: 10,
+    },
+    imageAvatarPrincipal: {
+        height: 75,
+        width: 75,
+        marginLeft: 10,
+        marginRight: 5,
+        borderRadius: 5,
+        marginBottom: 0,
+        marginTop: 10,
+        backgroundColor: 'azure'
+    },
+    textAvatarPrincipal: {
+        fontFamily: 'notoserif',
+        marginLeft: 15
     },
     imageAvatar: {
         height: 75,

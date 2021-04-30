@@ -4,12 +4,19 @@ import {createStackNavigator } from '@react-navigation/stack';
 import Login from '../src/Views/Login';
 import Register from '../src/Views/Register';
 import Rooms from '../src/Views/Rooms';
+import login_borrar from '../src/Views/login_borrar';
+
 const Stack = createStackNavigator();
 
 export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator>
+        <Stack.Screen
+          name="login_borrar"
+          component={login_borrar}
+          //options={{title: 'Ventana login'}}
+        />
         <Stack.Screen
           name="Rooms"
           component={Rooms}
