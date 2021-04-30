@@ -8,7 +8,8 @@ import { Avatar } from 'react-native-elements'
 import Spinner from 'react-native-loading-spinner-overlay';
 import {
     enviarInvitacion,
-    getUsuariosConectados
+    getUsuariosConectados,
+    cerrarSalaBD
 } from '../Utilities/Rooms_helpers'
 
 export default class Rooms extends React.Component {
@@ -61,6 +62,18 @@ export default class Rooms extends React.Component {
         }
     }
 
+    cerrarSala = async () => {
+        console.log('Cerrando sala')
+        //const deleted = await cerrarSalaBD(this.state.idRoom)
+        //console.log('deleted '+ deleted)
+        /* if (deleted === 1) {
+            this.props.navigation.navigate('MenuPrincipal');
+        } else {
+            console.log('No se pudo cerrar la sala')
+        } */
+        this.props.navigation.navigate('MenuPrincipal');
+    }
+
     render() {
         return (
             <View style={styles.mainContainer}>
@@ -108,6 +121,10 @@ export default class Rooms extends React.Component {
                 <Button
                     onPress={async () => { this.mostrarUsuarios() }}
                     title={'Mostrar usuarios conectados'}>
+                </Button>
+                <Button
+                    onPress={async () => { this.cerrarSala() }}
+                    title={'Volver a menu'}>
                 </Button>
 
                 {/* <MiniChat

@@ -63,6 +63,26 @@ const getUsuariosConectados = async () => {
     }
 }
 
+/**/
+const cerrarSalaBD = async (id) => {
+    const url = baseURL + '/api/deleteRoom';
+    const body = { "id": id };
+    try {
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(body)
+        });
+        let json = await response.json();
+        return json.msj;
+    } catch (error) {
+        Alert.alert("No se ha podido cerrar la sala");
+    }
+}
+
 /////// METODOS FUERA DE SALA ////////
 
 /**/
@@ -145,5 +165,6 @@ export {
     obtenerInvitacion,
     obtenerIdSala,
     obtenerInfoUsuario,
-    getUsuariosConectados
+    getUsuariosConectados,
+    cerrarSalaBD
 };

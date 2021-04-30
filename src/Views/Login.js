@@ -5,12 +5,6 @@ import { View, Text, Button, TextInput } from 'react-native'
 import style from '../Styles/Login_styles'
 import md5 from 'md5'
 const users = require('../Utilities/Usuarios')
-import {
-    crearSalaBD,
-    obtenerIdSala,
-    obtenerInfoUsuario
-} from '../Utilities/Rooms_helpers'
-
 import fetch from 'node-fetch' //necesario para el backend
 
 export default class Login extends Component {
@@ -48,8 +42,8 @@ export default class Login extends Component {
                 if (this.state.username.trim() === data[key].username) { // if user exists
                     flag=true        
                     if (md5(this.state.password.trim()) === data[key].password) { // if correct password 
-                        //this.props.navigation.navigate('MenuPrincipal')
-                        this.crearSala()
+                        const obj = {'usuario': this.state.username}
+                        this.props.navigation.navigate('MenuPrincipal', obj)
                     } else {
                         alert("¡Su contraseña es incorrecta!");
                     }
@@ -64,44 +58,6 @@ export default class Login extends Component {
 
     }
 
-    crearSala = async () => {
-        /* this.setState({ spinner: true }) */
-        const usr = this.state.username;
-        console.log('usuario: ' + usr)
-
-        /* creación de la sala */
-        var creada = await crearSalaBD(usr) /* 0:error, 1:exito */
-        if (creada === 0) {
-            /* this.setState({ spinner: false }) */
-            Alert.alert('No se pudo crear la sala')
-            return
-        }
-
-        var idSala = await obtenerIdSala(usr);
-        if (idSala === -1) {
-            /* this.setState({ spinner: false }) */
-            Alert.alert('Ocurrió un error al tratar de obtener la sala')
-            return
-        }
-
-        const json = await obtenerInfoUsuario(usr) /* nombre y id_avatar */
-
-        if (json.hasOwnProperty('error')) {
-            /* this.setState({ spinner: false }) */
-            Alert.alert('No se obtuvieron los datos del jugador')
-            return
-        }
-
-        /* redirecciona a la pantalla */
-        const obj = {
-            'idSala': idSala,
-            'usuario': usr,
-            'nombre': json.name,
-            'avatar_id': json.avatar_id
-        }
-        this.setState({ spinner: false })
-        this.props.navigation.navigate('Rooms', obj);
-    }
 
     render() {
 
