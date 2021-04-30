@@ -127,6 +127,11 @@ export default class Rooms extends React.Component {
                     title={'Volver a menu'}>
                 </Button>
 
+                <Button
+                    onPress={() => { this.props.navigation.navigate('Session'); }}
+                    title={'Config Session'}>
+                </Button>
+
                 {/* <MiniChat
                     idRoom={this.state.idRoom}
                     usuario={this.state.usuario}

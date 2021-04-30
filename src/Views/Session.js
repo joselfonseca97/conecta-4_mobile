@@ -48,6 +48,11 @@ export default function Session()  {
                     onPress={() => this.props.navigation.navigate('Login')}
                     color="#1ab012"
                 />
+                <Button
+                    title={'Salir'}>
+                    color="#1ab012"
+                    onPress={() => { this.props.navigation.navigate('Rooms'); }}
+                </Button>
             </View>
         </View>
     );
