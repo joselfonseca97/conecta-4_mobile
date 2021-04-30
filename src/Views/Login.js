@@ -66,7 +66,7 @@ export default class Login extends Component {
 
     crearSala = async () => {
         /* this.setState({ spinner: true }) */
-        const usr = this.state.usuario;
+        const usr = this.state.username;
         console.log('usuario: ' + usr)
 
         /* creación de la sala */
