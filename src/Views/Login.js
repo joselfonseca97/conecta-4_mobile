@@ -58,13 +58,12 @@ export default class Login extends Component {
 
     }
 
-
     render() {
 
         return (
             
             <View style={style.mainContainer}>
-                <Text style={style.logo}>Conecta_4</Text>
+                <Text style={style.logo} >Conecta_4</Text>
                 <Text></Text>
                 <Text></Text>
                 <View style={style.inputView}>

@@ -1,23 +1,24 @@
 import React from 'react'
 import { StyleSheet } from 'react-native'
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
 export default StyleSheet.create({
     mainContainer: {
         flex: 1,
-        backgroundColor: '#003f5c',
+        backgroundColor: '#5f9ea0',
         alignItems: 'center',
         justifyContent: 'center',
-        placeholderTextColor:"#003f5c"
+        
     },
     logo: {
         fontWeight: "bold",
         fontSize: 50,
-        color: "#fb5b5a",
+        color: "#8a2be2",
         marginBottom: 40
     },
     inputView: {
         width: "80%",
-        backgroundColor: "#465881",
+        backgroundColor: "#8fbc8f",
         borderRadius: 25,
         height: 50,
         marginBottom: 20,
@@ -26,7 +27,7 @@ export default StyleSheet.create({
     },
     inputText: {
         height: 50,
-        color: "white"
+        color: "black"
         
     },
     forgot: {
