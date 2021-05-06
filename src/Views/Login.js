@@ -41,7 +41,8 @@ export default class Login extends Component {
                 if (this.state.username.trim() === data[key].username) { // if user exists
                     flag=true        
                     if (md5(this.state.password.trim()) === data[key].password) { // if correct password 
-                        this.props.navigation.navigate('MenuPrincipal')      
+                        const obj = {'usuario': this.state.username}
+                        this.props.navigation.navigate('MenuPrincipal', obj)
                     } else {
                         alert("¡Su contraseña es incorrecta!");
                     }
@@ -61,7 +62,7 @@ export default class Login extends Component {
         return (
             
             <View style={style.mainContainer}>
-                <Text style={style.logo}>Conecta_4</Text>
+                <Text style={style.logo} >Conecta_4</Text>
                 <Text></Text>
                 <Text></Text>
                 <Button
@@ -96,7 +97,7 @@ export default class Login extends Component {
 
                 <Button
                     title="Registrarse"
-                    onPress={() => this.props.navigation.navigate('Register')}
+                    onPress={() => this.props.navigation.navigate('RoomConfig', {usuario: 'Webb'})}
                 />
 
                 <Text>OR</Text>

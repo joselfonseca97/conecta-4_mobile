@@ -14,8 +14,8 @@ async function getUsers() {
 }
 
 async function addUser(info) {
-    //const res = await fetch(`${uri}/api/addUsuario`, {   // for mobile testing
-    const res = await fetch('http://localhost:4000/api/addUsuario', {       // for web testing
+    const res = await fetch(`${uri}/api/addUsuario`, {   // for mobile testing
+    //const res = await fetch('http://localhost:4000/api/addUsuario', {       // for web testing
         method:'post',
         headers:{ 'Content-type': 'application/json' },
         body:JSON.stringify(info)
