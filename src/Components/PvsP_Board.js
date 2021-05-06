@@ -26,9 +26,7 @@ export default class PvsP_Board extends Component {
         tam = wp(100) / this.state.size
     }
     a = () => {
-        console.log("tamano total: " + wp(50))
-        console.log(this.state.ancho)
-        console.log(tam)
+        console.log("hi")
     }
     imageStyleContainer = (options)=> {
         return {
@@ -56,7 +54,8 @@ export default class PvsP_Board extends Component {
                                         source={fichaVacia}
                                     />
                                 </TouchableHighlight>
-                                <Text>|{'\n'}</Text>
+                                <View style={{borderWidth:2,borderColor:'red'}}></View>
+                                <Text>hbhb{'\n'}muhjv</Text>
                             </Fragment>
                         )
                     } else {

@@ -35,7 +35,7 @@ export default class Register extends Component {
     }
     componentDidMount() {
         let getAvatar = avatar.getAvatars()
-        this.setState({ avatars: getAvatar })
+        //this.setState({ avatars: getAvatar })
     }
 
     getUsers = async () => {

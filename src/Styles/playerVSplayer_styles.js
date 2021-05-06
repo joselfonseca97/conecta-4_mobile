@@ -16,13 +16,15 @@ export default StyleSheet.create({
         borderColor: 'green',
         borderWidth: 1,
         display:'flex',
-        alignItems: 'center',
+        alignItems:'center',
         alignContent:'center',
         justifyContent: 'center',
         maxHeight:wp(100),
         maxHeight:hp(100),
         width:wp(100),
-        height:hp(100)
+        height:hp(100),
+        //flexWrap:'wrap',
+        //alignItems: 'flex-start',
     },
     item: {
         flex: 1,

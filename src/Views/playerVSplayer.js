@@ -3,7 +3,6 @@ import { View, Text, Button, Image } from 'react-native'
 const gameUtil = require('../Utilities/Game')
 import style from '../Styles/playerVSplayer_styles'
 import Board from '../Components/PvsP_Board'
-import SquareGrid from "react-native-square-grid"
 import { TouchableHighlight } from 'react-native-gesture-handler'
 const fichaVacia = require('../Assets/fichaVacia.png')
 

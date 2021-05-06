@@ -97,7 +97,7 @@ export default class Login extends Component {
 
                 <Button
                     title="Registrarse"
-                    onPress={() => this.props.navigation.navigate('RoomConfig', {usuario: 'Webb'})}
+                    onPress={() => this.props.navigation.navigate('Register')}
                 />
 
                 <Text>OR</Text>
