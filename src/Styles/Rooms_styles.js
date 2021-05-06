@@ -1,9 +1,60 @@
 import { StyleSheet } from 'react-native'
+import {
+    widthPercentageToDP as wp,
+    heightPercentageToDP as hp
+} from 'react-native-responsive-screen';
 
 export default StyleSheet.create({
+    // View Room configurations
+    texto: {
+        alignSelf: 'center',
+        marginTop: wp('30%'),
+        marginBottom: wp('3%'),
+        fontSize: wp('6'),
+        fontFamily: 'sans-serif-medium',
+        fontWeight: 'bold',
+    },
+    texto2: {
+        alignSelf: 'center',
+        marginBottom: wp('2%'),
+        marginTop: wp('15%'),
+        fontSize: wp('6'),
+        fontFamily: 'sans-serif-medium',
+        fontWeight: 'bold',
+    },
+    button: {
+        alignItems: 'center',
+        padding: wp(2),
+        backgroundColor: 'deepskyblue',
+        marginTop: wp('3'),
+        marginLeft: wp('25%'),
+        marginRight: wp('25%'),
+        borderRadius: 30
+    },
+    buttonText: {
+        color: 'white',
+        fontSize: wp('4'),
+        fontWeight: 'bold'
+    },
+    scrollViewStyle: {
+        backgroundColor: 'gainsboro',
+        marginTop: wp('3%'),
+        marginBottom: wp('55%'),
+        marginRight: wp('10%'),
+        marginLeft: wp('10%'),
+        borderRadius: 15
+    }, 
+    inputStyle: {
+        fontWeight: 'bold',
+        fontSize: 16
+    },
+    
+
+
+
     mainContainer: {
         flex: 1,
-        backgroundColor: 'sienna',
+        backgroundColor: 'white',
     },
     userText: {
         fontFamily: 'notoserif',

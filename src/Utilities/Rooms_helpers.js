@@ -1,8 +1,8 @@
 import fetch from 'node-fetch'
 import { Alert } from 'react-native'
 
-//const baseURL = 'http://10.0.2.2:4000' 
-const baseURL = 'http://localhost:4000'
+const baseURL = 'http://10.0.2.2:4000' 
+//const baseURL = 'http://localhost:4000'
 
 /////// METODOS DENTRO DE SALA ////////
 
@@ -130,7 +130,7 @@ const obtenerIdSala = async (username) => {
 }
 
 /**/
-const obtenerInfoUsuario = async (username) => {
+const obtenerInfoUsuarioBD = async (username) => {
     const url = baseURL + '/api/getUserInfo'
     const body = { "username": username };
     try {
@@ -150,21 +150,54 @@ const obtenerInfoUsuario = async (username) => {
     }
 }
 
-const obtenerInvitacion = (jugador) => {
-    const url = baseURL + '/api/getInvitation'
-    const body = { "toplayer": jugador };
-    var counter = setInterval(async () => {
-        console.log("verificando si existen solicitudes...");
-    }, 1000);
+/**/
+const obtenerInvitacionesBD = async (usuario) => {
+    const url = baseURL + '/api/getInvitations'
+    const body = { "invitado": usuario };
+    try {
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(body)
+        });
+        let json = await response.json();
+        return json;
+    } catch (error) {
+        Alert.alert("A ocurrido un error inesperado");
+    }
+}
+
+/**/
+const eliminarInvitacionBD = async (idSala, invitador, invitado) => {
+    const url = baseURL + '/api/deleteInvitation2';
+    const body = { "id": idSala, "invitador": invitador, "invitado": invitado };
+    try {
+        const response = await fetch(url, {
+            method: 'DELETE',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(body)
+        });
+        let json = await response.json();
+        return json.msj;
+    } catch (error) {
+        Alert.alert("No se ha podido eliminar la invitación");
+    }
 }
 
 export {
     crearSalaBD,
     anadirJugadorSalaBD,
     enviarInvitacion,
-    obtenerInvitacion,
+    obtenerInvitacionesBD,
     obtenerIdSala,
-    obtenerInfoUsuario,
+    obtenerInfoUsuarioBD,
     getUsuariosConectados,
-    cerrarSalaBD
+    cerrarSalaBD,
+    eliminarInvitacionBD
 };

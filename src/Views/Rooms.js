@@ -6,6 +6,8 @@ import { map } from 'lodash'
 import { getAvatars } from '../Utilities/Avatar'
 import { Avatar } from 'react-native-elements'
 import Spinner from 'react-native-loading-spinner-overlay';
+import AwesomeAlert from 'react-native-awesome-alerts';
+
 import {
     enviarInvitacion,
     getUsuariosConectados,
@@ -77,11 +79,11 @@ export default class Rooms extends React.Component {
     render() {
         return (
             <View style={styles.mainContainer}>
-                {/* <Spinner
+                <Spinner
                     visible={this.state.spinner}
                     textContent={this.state.msj}
                     textStyle={{ color: '#FFF' }}
-                /> */}
+                />
                 <Text style={styles.userText}>Room #{this.state.idRoom}</Text>
 
                 <View>

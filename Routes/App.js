@@ -6,6 +6,8 @@ import Register from '../src/Views/Register';
 import MenuPrincipal from '../src/Views/MenuPrincipal';
 import Rooms from '../src/Views/Rooms';
 import Session from '../src/Views/Session';
+import RoomConfig from '../src/Views/RoomConfig'
+
 // import login_borrar from '../src/Views/login_borrar';
 
 const Stack = createStackNavigator();
@@ -29,6 +31,10 @@ export default function App() {
           name="MenuPrincipal"
           component={MenuPrincipal}
         //options={{title:'Ventana Principal'}}
+        />
+        <Stack.Screen
+          name="RoomConfig"
+          component={RoomConfig}
         />
         <Stack.Screen
           name="Rooms"
