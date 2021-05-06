@@ -4,6 +4,7 @@ import {createStackNavigator } from '@react-navigation/stack';
 import Login from '../src/Views/Login';
 import Register from '../src/Views/Register';
 import MenuPrincipal from '../src/Views/MenuPrincipal';
+import playerVSplayer from '../src/Views/playerVSplayer';
 
 const Stack = createStackNavigator();
 
@@ -25,6 +26,10 @@ export default function App() {
           name="MenuPrincipal"
           component={MenuPrincipal}
         //options={{title:'Ventana Principal'}}
+        />
+        <Stack.Screen
+          name="PlayerVSplayer"
+          component={playerVSplayer}
         />
       </Stack.Navigator>
     </NavigationContainer>

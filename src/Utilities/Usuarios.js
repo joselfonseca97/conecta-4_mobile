@@ -3,12 +3,12 @@ import fetch from 'node-fetch'
 import Constants from "expo-constants";
 
 const { manifest } = Constants;
-//const uri=`http://${manifest.debuggerHost.split(':').shift()}:4000`
+const uri=`http://${manifest.debuggerHost.split(':').shift()}:4000` //comment this if testing on PC
 
 
 async function getUsers() {
-    let response =await fetch('http://localhost:4000/api/getUsuarios')  //FOR TESTING ON PC
-    //let response = await fetch(`${uri}/api/getUsuarios`) // FOR TESTING ON MOBILe
+    //let response =await fetch('http://localhost:4000/api/getUsuarios')  //FOR TESTING ON PC
+    let response = await fetch(`${uri}/api/getUsuarios`) // FOR TESTING ON MOBILe
     let data = await response.json()
     return data
 }

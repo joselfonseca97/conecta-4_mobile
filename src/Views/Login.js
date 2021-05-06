@@ -5,7 +5,6 @@ import { View, Text, Button, TextInput } from 'react-native'
 import style from '../Styles/Login_styles'
 import md5 from 'md5'
 const users = require('../Utilities/Usuarios')
-import fetch from 'node-fetch' //necesario para el backend
 
 export default class Login extends Component {
     constructor() {
@@ -65,6 +64,10 @@ export default class Login extends Component {
                 <Text style={style.logo}>Conecta_4</Text>
                 <Text></Text>
                 <Text></Text>
+                <Button
+                title="nada"
+                onPress={()=>this.props.navigation.navigate("PlayerVSplayer")}
+                />
                 <View style={style.inputView}>
                     <TextInput placeholder=" Ingrese su usuario"
                         style={style.inputText}
