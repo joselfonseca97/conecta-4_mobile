@@ -147,7 +147,7 @@ export default class RoomConfig extends React.Component {
     render() {
         return (
             <>
-                <View style={styles.mainContainer}>
+                <View style={styles.container}>
 
                     <Text style={styles.texto}>Configuración de sala</Text>
                     {/* Boton crear sala */}

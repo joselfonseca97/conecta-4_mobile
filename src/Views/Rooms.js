@@ -78,67 +78,67 @@ export default class Rooms extends React.Component {
 
     render() {
         return (
-            <View style={styles.mainContainer}>
-                <Spinner
-                    visible={this.state.spinner}
-                    textContent={this.state.msj}
-                    textStyle={{ color: '#FFF' }}
-                />
-                <Text style={styles.userText}>Room #{this.state.idRoom}</Text>
+            <>
+                <View style={styles.mainContainer}>
 
-                <View>
                     <Avatar
                         style={styles.imageAvatarPrincipal}
                         source={this.getAvatarImage(this.state.avatar_id)}
                     />
                     <Text style={styles.textAvatarPrincipal}>{this.state.nombre}</Text>
-                </View>
 
-                <Text style={styles.mainText}>Sala de Juegos!</Text>
-                <Image
-                    style={styles.imageTable}
-                    source={require('../Assets/table.png')}
-                />
+                    <Image
+                        style={styles.image}
+                        source={require('../Assets/text.gif')}
+                    />
 
-                {
-                    <ScrollView
-                        horizontal
-                        style={{ alignSelf: 'center' }}
-                    >
-                        {
-                            map(this.state.onlineUsers, (object, index) => (
-                                <View key={index}>
-                                    <Avatar
-                                        style={styles.imageAvatar}
-                                        source={this.getAvatarImage(object.avatar_id)}
-                                        onPress={async () => { this.enviarInvitacionAux(object.username) }}
-                                    />
-                                    <Text style={styles.textAvatar}>{object.name}</Text>
-                                </View>
-                            ))
-                        }
-                    </ScrollView>
-                }
+                    <Text style={styles.codigoSala}>Código de sala: {this.state.idRoom}</Text>
+                    {
+                        <ScrollView
+                            horizontal
+                            style={{ alignSelf: 'center' }}
+                        >
+                            {
+                                map(this.state.onlineUsers, (object, index) => (
+                                    <View key={index}>
+                                        <Avatar
+                                            style={styles.imageAvatar}
+                                            source={this.getAvatarImage(object.avatar_id)}
+                                            onPress={async () => { this.enviarInvitacionAux(object.username) }}
+                                        />
+                                        <Text style={styles.textAvatar}>{object.name}</Text>
+                                    </View>
+                                ))
+                            }
+                        </ScrollView>
+                    }
 
-                <Button
-                    onPress={async () => { this.mostrarUsuarios() }}
-                    title={'Mostrar usuarios conectados'}>
-                </Button>
-                <Button
-                    onPress={async () => { this.cerrarSala() }}
-                    title={'Volver a menu'}>
-                </Button>
+                    <Button
+                        onPress={async () => { this.mostrarUsuarios() }}
+                        title={'Mostrar usuarios conectados'}>
+                    </Button>
+                    <Button
+                        onPress={async () => { this.cerrarSala() }}
+                        title={'Volver a menu'}>
+                    </Button>
 
-                <Button
-                    onPress={() => { this.props.navigation.navigate('Session'); }}
-                    title={'Config Session'}>
-                </Button>
+                    <Button
+                        onPress={() => { this.props.navigation.navigate('Session'); }}
+                        title={'Config Session'}>
+                    </Button>
 
-                {/* <MiniChat
+                    {/* <MiniChat
                     idRoom={this.state.idRoom}
                     usuario={this.state.usuario}
                 /> */}
-            </View>
+
+                    <Spinner
+                        visible={this.state.spinner}
+                        textContent={this.state.msj}
+                        textStyle={{ color: '#FFF' }}
+                    />
+                </View>
+            </>
         );
     }
 }

@@ -6,6 +6,10 @@ import {
 
 export default StyleSheet.create({
     // View Room configurations
+    container: {
+        flex: 1,
+        backgroundColor: 'white',
+    },
     texto: {
         alignSelf: 'center',
         marginTop: wp('30%'),
@@ -54,47 +58,42 @@ export default StyleSheet.create({
 
     mainContainer: {
         flex: 1,
-        backgroundColor: 'white',
-    },
-    userText: {
-        fontFamily: 'notoserif',
-        fontSize: 20,
-        marginLeft: 10,
-        textAlign: 'left',
-        color: 'white',
-        backgroundColor: 'gray'
-    },
-    // Texto sala de juegos
-    mainText: {
-        fontFamily: 'monospace',
-        fontSize: 25,
-        textAlign: 'center',
-        marginTop: 10,
-        backgroundColor: 'sienna',
-        color: 'white'
-    },
-    imageTable: {
-        /* width: 100,
-        height: 100, */
-        marginBottom: 15,
-        alignSelf: 'center',
-        marginTop: 20,
-        marginBottom: 10,
+        backgroundColor: 'navy',
     },
     imageAvatarPrincipal: {
-        height: 75,
-        width: 75,
-        marginLeft: 10,
-        marginRight: 5,
-        borderRadius: 5,
-        marginBottom: 0,
-        marginTop: 10,
-        backgroundColor: 'azure'
+        height: hp('15%'),
+        width: wp('25%'),
+        marginLeft: 25,
+        //marginRight: 10,
+        borderRadius: 10,
+        marginTop: wp('16'),
+        backgroundColor: 'yellow'
     },
-    textAvatarPrincipal: {
+    textAvatarPrincipal: { /* texto nombre usuario */
         fontFamily: 'notoserif',
-        marginLeft: 15
+        fontSize: 35,
+        top: hp('-6'),
+        left: wp('40'),
+        color: 'white',  
     },
+    codigoSala: {
+        fontFamily: 'notoserif',
+        fontSize: 22,
+        textAlign: 'center',
+        color: 'white',
+        backgroundColor: 'orangered',
+        marginLeft: '25%',
+        marginRight: '25%',
+        marginTop: '5%'
+    },
+    /* imagen texto Sala de juego */
+    image: {
+        alignSelf: 'center',
+        marginTop: wp('0%'),
+        //marginBottom: hp('5%'),
+    },
+    
+    
     imageAvatar: {
         height: 75,
         width: 75,
