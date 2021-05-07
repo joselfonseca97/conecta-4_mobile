@@ -52,16 +52,47 @@ const enviarInvitacion = async (idSala, invitador, invitado) => {
 }
 
 /**/
-const getUsuariosConectados = async () => {
+const getUsuariosConectados = async (username) => {
     const url = baseURL + '/api/getOnlineUsers'
+    const body = { "username": username };
     try {
-        const response = await fetch(url);
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(body)
+        });
         let json = await response.json();
-        console.log(json)
         return json;
     } catch (error) {
         Alert.alert("A ocurrido un error inesperado");
-        return { "error": 0 }
+        return null;
+    }
+}
+
+/* probar */
+const getUsuariosEnSalaBD = async (idSala, username) => { /* username es para no retornar el mismo */
+    const url = baseURL + '/api/getUsuariosEnSala'
+    const body = {
+        "idSala": idSala,
+        "username": username
+    }
+    try {
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(body)
+        });
+        let json = await response.json();
+        return json;
+    } catch (error) {
+        Alert.alert("A ocurrido un error inesperado");
+        return null;
     }
 }
 
@@ -205,5 +236,6 @@ export {
     obtenerInfoUsuarioBD,
     getUsuariosConectados,
     cerrarSalaBD,
-    eliminarInvitacionBD
+    eliminarInvitacionBD,
+    getUsuariosEnSalaBD
 };

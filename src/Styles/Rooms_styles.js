@@ -84,7 +84,8 @@ export default StyleSheet.create({
         backgroundColor: 'orangered',
         marginLeft: '25%',
         marginRight: '25%',
-        marginTop: '5%'
+        marginTop: '5%',
+        marginBottom: '5%'
     },
     /* imagen texto Sala de juego */
     image: {
@@ -92,8 +93,16 @@ export default StyleSheet.create({
         marginTop: wp('0%'),
         //marginBottom: hp('5%'),
     },
-    
-    
+    scrollViewUsuariosConectados: {
+        alignSelf: 'center',
+        backgroundColor: 'yellowgreen',
+        marginTop: wp('3%'),
+        marginBottom: wp('52%'),
+        marginRight: wp('1%'),
+        marginLeft: wp('1%'),
+        borderRadius: 15
+    }, 
+    /* avatars usuarios conectados */
     imageAvatar: {
         height: 75,
         width: 75,
@@ -102,10 +111,12 @@ export default StyleSheet.create({
         borderRadius: 50,
         marginBottom: 0,
         marginTop: 10,
-        backgroundColor: 'azure'
+        backgroundColor: 'midnightblue'
     },
     textAvatar: {
         fontFamily: 'notoserif',
-        textAlign: 'center'
+        fontSize: 17,
+        textAlign: 'center',
+        fontWeight: 'bold'
     }
 })
