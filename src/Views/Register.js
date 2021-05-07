@@ -3,7 +3,6 @@ import { TouchableHighlight, ImageBackground, Modal, View, Text, Button, Image, 
 import { TextInput } from 'react-native-gesture-handler'
 import style from '../Styles/Register_styles'
 import avatarStyle from '../Styles/Avatars_styles'
-import Avatars_styles from '../Styles/Avatars_styles'
 import md5 from 'md5'
 
 const avatar = require('../Utilities/Avatar')
@@ -36,7 +35,7 @@ export default class Register extends Component {
     }
     componentDidMount() {
         let getAvatar = avatar.getAvatars()
-        this.setState({ avatars: getAvatar })
+        //this.setState({ avatars: getAvatar })
     }
 
     getUsers = async () => {
@@ -102,9 +101,9 @@ export default class Register extends Component {
                             {this.state.avatars.map((av) => {
                                 if (av.avatar_id === this.state.selectedAvatarId) {
                                     return (
-                                        <TouchableHighlight key={av.avatar_id} onPress={this.onAvatarSelectionChange(av.avatar_url, av.avatar_id)} style={Avatars_styles.modalAvatarContainer}>
+                                        <TouchableHighlight key={av.avatar_id} onPress={this.onAvatarSelectionChange(av.avatar_url, av.avatar_id)} style={avatarStyle.modalAvatarContainer}>
                                             <Image
-                                                style={Avatars_styles.modalAvatar_Selected}
+                                                style={avatarStyle.modalAvatar_Selected}
                                                 source={av.avatar_url}
                                                 id={av.avatar_id}
                                             />
@@ -112,9 +111,9 @@ export default class Register extends Component {
                                     )
                                 } else {
                                     return (
-                                        <TouchableHighlight key={av.avatar_id} onPress={this.onAvatarSelectionChange(av.avatar_url, av.avatar_id)} style={Avatars_styles.modalAvatarContainer}>
+                                        <TouchableHighlight key={av.avatar_id} onPress={this.onAvatarSelectionChange(av.avatar_url, av.avatar_id)} style={avatarStyle.modalAvatarContainer}>
                                             <Image
-                                                style={Avatars_styles.modalAvatar}
+                                                style={avatarStyle.modalAvatar}
                                                 source={av.avatar_url}
                                                 id={av.avatar_id}
                                             />
@@ -122,15 +121,6 @@ export default class Register extends Component {
                                     )
                                 }
                             })}
-                            {/* ,
-                            MoveToBottom(
-                                <Button
-                                    title="Back"
-                                    onPress={this.onModalStatusChange}
-                                />
-                            )
-
-                        } */}
                         </ScrollView>
                     </Modal>
 
@@ -147,7 +137,7 @@ export default class Register extends Component {
                             secureTextEntry={true}
                             style={style.inputStyle}
                             name="password"
-                            placeholder="password"
+                            placeholder="Password"
                             onChangeText={this.onChangePasswordInput}
                         />
                         <TextInput

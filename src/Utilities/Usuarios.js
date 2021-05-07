@@ -3,7 +3,7 @@ import fetch from 'node-fetch'
 import Constants from "expo-constants";
 
 const { manifest } = Constants;
-const uri=`http://${manifest.debuggerHost.split(':').shift()}:4000`
+const uri=`http://${manifest.debuggerHost.split(':').shift()}:4000` //comment this if testing on PC
 
 
 async function getUsers() {

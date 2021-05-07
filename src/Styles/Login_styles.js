@@ -8,7 +8,7 @@ export default StyleSheet.create({
         backgroundColor: '#5f9ea0',
         alignItems: 'center',
         justifyContent: 'center',
-        
+        //placeholderTextColor:"#003f5c"
     },
     logo: {
         fontWeight: "bold",

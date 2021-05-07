@@ -14,6 +14,7 @@ export default StyleSheet.create({
         borderWidth: 2,
         borderRadius:30,
         backgroundColor: 'rgba(255,255,255,0.3)'
+        
     },
     modalAvatar: {
         flex: 1,
@@ -21,9 +22,11 @@ export default StyleSheet.create({
         resizeMode: 'contain',
         width: wp(30),
         height: wp(30),
-        borderColor:'purple',
-        borderWidth: 1,
-        margin: wp(1)
+        //borderColor:'purple',
+        //borderWidth: 1,
+        margin: wp(1),
+        backgroundColor:'white',
+        backgroundColor:'rgba(128, 255, 255,0.9)'
     },
     modalAvatar_Selected: {
         flex: 1,
@@ -31,14 +34,14 @@ export default StyleSheet.create({
         resizeMode: 'contain',
         width: wp(30),
         height: wp(30),
-        borderColor:'red',
-        borderWidth: 1,
-        margin: wp(1)
+        borderColor:'green',
+        borderWidth: 2,
+        margin: wp(1),
+        backgroundColor:'rgba(128, 255, 170,0.9)'
+
     },
     modalAvatarContainer: {
         flex: 1,
         flexDirection: 'row',
-        borderColor:'red',
-        borderWidth:2
     }
 })
