@@ -1,7 +1,7 @@
 import fetch from 'node-fetch'
 import { Alert } from 'react-native'
 
-const baseURL = 'http://10.0.2.2:4000' 
+const baseURL = 'http://10.0.2.2:4000'
 //const baseURL = 'http://localhost:4000'
 
 /////// METODOS DENTRO DE SALA ////////
@@ -27,6 +27,7 @@ const anadirJugadorSalaBD = async (idSala, jugador) => {
         return json.msj;
     } catch (error) {
         Alert.alert("A ocurrido un error inesperado");
+        return 0;
     }
 }
 
@@ -60,6 +61,7 @@ const getUsuariosConectados = async () => {
         return json;
     } catch (error) {
         Alert.alert("A ocurrido un error inesperado");
+        return { "error": 0 }
     }
 }
 
@@ -80,6 +82,7 @@ const cerrarSalaBD = async (id) => {
         return json.msj;
     } catch (error) {
         Alert.alert("No se ha podido cerrar la sala");
+        return 0
     }
 }
 
@@ -102,9 +105,10 @@ const crearSalaBD = async (anfitrion) => {
             body: JSON.stringify(body)
         });
         let json = await response.json(); // json={ msj: <1|0> }
-        return json.msj;
+        return json.msg;
     } catch (error) {
-        Alert.alert("A ocurrido un error inesperado");
+        Alert.alert("A ocurrido un error inesperado al crear la sala");
+        return 0;
     }
 }
 
@@ -122,10 +126,10 @@ const obtenerIdSala = async (username) => {
             body: JSON.stringify(body)
         });
         let json = await response.json();
-        console.log(json.id)
         return json.id;
     } catch (error) {
-        Alert.alert("A ocurrido un error inesperado");
+        Alert.alert("A ocurrido un error inesperado al obtener id sala");
+        return -1;
     }
 }
 
@@ -143,10 +147,10 @@ const obtenerInfoUsuarioBD = async (username) => {
             body: JSON.stringify(body)
         });
         let json = await response.json();
-        console.log(json)
         return json; /* { name: <name>, avatar_id: <id> } */
     } catch (error) {
-        Alert.alert("A ocurrido un error inesperado");
+        //Alert.alert("A ocurrido un error inesperado al obtener información del usuario");
+        return null
     }
 }
 
@@ -167,6 +171,7 @@ const obtenerInvitacionesBD = async (usuario) => {
         return json;
     } catch (error) {
         Alert.alert("A ocurrido un error inesperado");
+        return null
     }
 }
 
@@ -187,6 +192,7 @@ const eliminarInvitacionBD = async (idSala, invitador, invitado) => {
         return json.msj;
     } catch (error) {
         Alert.alert("No se ha podido eliminar la invitación");
+        return 0;
     }
 }
 
