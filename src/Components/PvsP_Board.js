@@ -7,6 +7,32 @@ const fichaAmarilla = require('../Assets/fichaAmarilla.png')
 const fichaVacia = require('../Assets/fichaVacia.png')
 
 var tam = 0
+
+const Cat = () => {
+    for (let i = 1; i < 9; i++) {
+        if (i % 9 === 0) {
+            return (
+                <Text>{'\n'}</Text>
+            )
+        }
+        return (
+            <Text><TouchableHighlight >
+                <Image
+                    style={{
+                        flex: 1,
+                        width: null,
+                        height: null,
+                        resizeMode: 'contain'
+                    }}
+                    source={fichaVacia}
+                />
+            </TouchableHighlight></Text>
+        )
+
+    }
+
+}
+
 export default class PvsP_Board extends Component {
     constructor(props) {
         super(props)
@@ -28,7 +54,7 @@ export default class PvsP_Board extends Component {
     a = () => {
         console.log("hi")
     }
-    imageStyleContainer = (options)=> {
+    imageStyleContainer = (options) => {
         return {
             borderColor: 'green',
             borderWidth: 2,
@@ -36,45 +62,11 @@ export default class PvsP_Board extends Component {
             height: 35
         }
     }
+
+
     render() {
         return (
-            this.state.matrix.map((ima, index) => {
-                if (ima == 0) { //if empty
-                    if ((index+1) % this.state.size === 0) {
-                        return (
-                            <Fragment>
-                                <TouchableHighlight onPress={this.a} style={this.imageStyleContainer()}>
-                                    <Image
-                                        style={{
-                                            flex: 1,
-                                            width: null,
-                                            height: null,
-                                            resizeMode: 'contain'
-                                        }}
-                                        source={fichaVacia}
-                                    />
-                                </TouchableHighlight>
-                                <View style={{borderWidth:2,borderColor:'red'}}></View>
-                                <Text>hbhb{'\n'}muhjv</Text>
-                            </Fragment>
-                        )
-                    } else {
-                        return (
-                            <TouchableHighlight onPress={this.a} style={this.imageStyleContainer()}>
-                                <Image
-                                    style={{
-                                        flex: 1,
-                                        width: null,
-                                        height: null,
-                                        resizeMode: 'contain'
-                                    }}
-                                    source={fichaVacia}
-                                />
-                            </TouchableHighlight>
-                        )
-                    }
-                }
-            })
+            <Cat />
         )
     }
 }
