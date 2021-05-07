@@ -43,7 +43,7 @@ export default class RoomConfig extends React.Component {
     crearSala = async () => {
         /* Crea la sala en la base de datos */
         var creada = await crearSalaBD(this.state.usuario);
-        return (creada === 0) ? false : true; // 0:error, 1:exito
+        return (creada === 1) ? true : false;
     }
 
 
@@ -66,14 +66,12 @@ export default class RoomConfig extends React.Component {
         const idSala = await obtenerIdSala(usr); /* Obtener el id de la sala creada */
 
         if (idSala === -1) {
-            this.cambiarEstadoAlerta('Ocurrió un error al tratar de obtener la sala')
             return null
         }
 
         /* Obtiene los datos iniciales del usuario */
         const json = await obtenerInfoUsuarioBD(usr) /* nombre y id_avatar */
-        if (json.hasOwnProperty('error')) {
-            this.cambiarEstadoAlerta('No se obtuvieron los datos del jugador')
+        if (json === null) {
             return null
         }
 
@@ -100,10 +98,11 @@ export default class RoomConfig extends React.Component {
         const obj = await this.obtenerInfoUsuario();
         if (obj === null) {
             this.cambiarEstadoSpinner('');
+            this.cambiarEstadoAlerta('No se obtuvieron los datos del jugador')
             return
         }
         this.cambiarEstadoSpinner('');
-        //this.props.navigation.navigate('Rooms', obj);
+        this.props.navigation.navigate('Rooms', obj);
     }
 
 
@@ -127,15 +126,21 @@ export default class RoomConfig extends React.Component {
         await this.eliminarInvitacion();
 
         this.cambiarEstadoSpinner('');
-        //this.props.navigation.navigate('Rooms', obj);
+        this.props.navigation.navigate('Rooms', obj);
     }
+
 
     actualizarInvitaciones = async () => {
         this.cambiarEstadoSpinner('Actualizando invitaciones...')
         /* Obtiene invitaciones desde base de datos */
         const array = await obtenerInvitacionesBD(this.state.usuario);
+        if (array !== null) {
+            this.setState({ invitaciones: array })
+        } else {
+            this.cambiarEstadoAlerta('Intente de nuevo');
+        }
         this.cambiarEstadoSpinner('')
-        this.setState({ invitaciones: array })
+
     }
 
 
@@ -185,7 +190,7 @@ export default class RoomConfig extends React.Component {
                                     key={index}
                                     onPress={async () => {
                                         this.setState({
-                                            msj: object.invitador,
+                                            msj: object.nombreInv,
                                             idSala: parseInt(object.idSala)
                                         });
                                         this.setState({ showAlert2: true })
