@@ -22,8 +22,8 @@ export default class Session extends Component{
                 <Text style={style.lblTittle}> {'\n'}Sesion de: {'\t\t\t\t\t\t\t\t\t'}
                 { <Button
                     color="#ff0000"
-                    title={'Abandonar'}>
-                    onPress={() => { this.props.navigation.navigate('Login'); }}
+                    title={'Abandonar'}
+                    onPress={() => { this.props.navigation.navigate('Login'); }}>
                 </Button>}</Text>
             </View>
 
@@ -73,9 +73,9 @@ export default class Session extends Component{
                     color="#1ab012"
                 />
                 <Button
-                    title={'Salir'}>
-                    color="#1ab012"
-                    onPress={() => { this.props.navigation.navigate('Rooms'); }}
+                    title={'Salir'}
+                    color="#000000"
+                    onPress={() => { this.props.navigation.navigate('Rooms'); }}>
                 </Button>
             </View>
         </View>
