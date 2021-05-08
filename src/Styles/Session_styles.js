@@ -32,6 +32,23 @@ export default StyleSheet.create({
     lblHistorial:{
         fontWeight: "bold",
         fontSize: wp(4),
+    },
+    iconUser:{
+        width: wp(5),
+        height: hp(5),
+    },
+    iconHistorial:{
+        width: wp(5),
+        height: hp(3),
+        resizeMode: 'stretch',
+    },
+    lblOnline:{
+        color: 'green',
+        fontSize: wp(4),
+    },
+    lblOffline:{
+        color: 'red',
+        fontSize: wp(4),
     }
 
 })

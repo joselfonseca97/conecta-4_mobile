@@ -1,8 +1,9 @@
 import React from 'react'
-import { Text, TextInput, View, Button, TouchableHighlight, ScrollView, Alert, Image } from 'react-native'
+import { Text, TextInput, View, Button, TouchableOpacity, ScrollView, Alert, Image } from 'react-native'
+import { Input } from 'react-native-elements'
 import styles from '../Styles/Rooms_styles'
 import MiniChat from './MiniChat'
-import { map } from 'lodash'
+import { map, size } from 'lodash'
 import { getAvatars } from '../Utilities/Avatar'
 import { Avatar } from 'react-native-elements'
 import Spinner from 'react-native-loading-spinner-overlay';
@@ -11,6 +12,7 @@ import AwesomeAlert from 'react-native-awesome-alerts';
 import {
     enviarInvitacion,
     getUsuariosConectados,
+    getUsuariosEnSalaBD,
     cerrarSalaBD
 } from '../Utilities/Rooms_helpers'
 
@@ -30,6 +32,12 @@ export default class Rooms extends React.Component {
         };
     }
 
+
+    cambiarEstadoSpinner = (msj) => {
+        this.setState({ msj: msj, spinner: !this.state.spinner });
+    }
+
+
     getAvatarImage(avatar_id) {
         const avatars = getAvatars();
         for (var i in avatars) {
@@ -39,7 +47,7 @@ export default class Rooms extends React.Component {
         }
     }
 
-    enviarInvitacionAux = async (invitado) => {
+    enviarInvitacionAux = async (invitado, nombre) => {
         console.log('Enviando invitación')
         this.setState({ msj: 'Enviando invitación', spinner: true })
 
@@ -52,20 +60,29 @@ export default class Rooms extends React.Component {
             Alert.alert('No se pudo enviar la invitación')
             return
         } else {
-            Alert.alert('Se envió la invitación a ' + invitado)
+            Alert.alert('Se envió la invitación a ' + nombre)
         }
     }
 
     mostrarUsuarios = async () => {
-        console.log('Mostrando usuarios')
-        const jugadores = await getUsuariosConectados()
-        if (!jugadores.hasOwnProperty('error')) {
+        this.cambiarEstadoSpinner('Actualizando...')
+        const jugadores = await getUsuariosConectados(this.state.usuario)
+        if (jugadores !== null) {
             this.setState({ onlineUsers: jugadores })
         }
+        this.cambiarEstadoSpinner('')
+    }
+
+    actualizarJugadoresEnSala = async () => {
+        this.cambiarEstadoSpinner('Actualizando jugadores en sala...')
+        const jugadores = await getUsuariosEnSalaBD(this.state.idRoom, this.state.usuario);
+        if (jugadores !== null) {
+            this.setState({ jugadoresEnSala: jugadores })
+        }
+        this.cambiarEstadoSpinner('')
     }
 
     cerrarSala = async () => {
-        console.log('Cerrando sala')
         //const deleted = await cerrarSalaBD(this.state.idRoom)
         //console.log('deleted '+ deleted)
         /* if (deleted === 1) {
@@ -73,72 +90,102 @@ export default class Rooms extends React.Component {
         } else {
             console.log('No se pudo cerrar la sala')
         } */
-        this.props.navigation.navigate('MenuPrincipal');
+        this.props.navigation.navigate('RoomConfig');
     }
 
     render() {
         return (
-            <View style={styles.mainContainer}>
-                <Spinner
-                    visible={this.state.spinner}
-                    textContent={this.state.msj}
-                    textStyle={{ color: '#FFF' }}
-                />
-                <Text style={styles.userText}>Room #{this.state.idRoom}</Text>
+            <>
+                <View style={styles.mainContainer}>
 
-                <View>
                     <Avatar
                         style={styles.imageAvatarPrincipal}
                         source={this.getAvatarImage(this.state.avatar_id)}
                     />
                     <Text style={styles.textAvatarPrincipal}>{this.state.nombre}</Text>
-                </View>
 
-                <Text style={styles.mainText}>Sala de Juegos!</Text>
-                <Image
-                    style={styles.imageTable}
-                    source={require('../Assets/table.png')}
-                />
+                    <Image
+                        style={styles.image}
+                        source={require('../Assets/text.gif')}
+                    />
 
-                {
+                    <Text style={styles.codigoSala}>Código de sala: {this.state.idRoom}</Text>
+
+                    {/* <Text>Jugadores en línea</Text> */}
                     <ScrollView
                         horizontal
-                        style={{ alignSelf: 'center' }}
+                        style={styles.scrollViewUsuariosConectados}
                     >
+                        {
+                            size(this.state.onlineUsers) === 0 && (
+                                <Input
+                                    style={styles.inputStyle}
+                                    placeholder={" Actualiza la lista para buscar usuarios"}
+                                    placeholderTextColor={'black'}
+                                    leftIcon={{ type: 'font-awesome', name: 'user' }}
+                                    editable={false}
+                                />
+                            )
+                        }
                         {
                             map(this.state.onlineUsers, (object, index) => (
                                 <View key={index}>
                                     <Avatar
                                         style={styles.imageAvatar}
                                         source={this.getAvatarImage(object.avatar_id)}
-                                        onPress={async () => { this.enviarInvitacionAux(object.username) }}
+                                        onPress={async () => { this.enviarInvitacionAux(object.username, object.name) }}
                                     />
                                     <Text style={styles.textAvatar}>{object.name}</Text>
                                 </View>
                             ))
                         }
                     </ScrollView>
-                }
 
-                <Button
-                    onPress={async () => { this.mostrarUsuarios() }}
-                    title={'Mostrar usuarios conectados'}>
-                </Button>
-                <Button
-                    onPress={async () => { this.cerrarSala() }}
-                    title={'Volver a menu'}>
-                </Button>
+                    {/* Boton ver jugadores conectados */}
+                    <TouchableOpacity
+                        style={styles.button}
+                        onPress={async () => { this.mostrarUsuarios() }}
+                    >
+                        <Text style={styles.buttonText}>Ver amigos conectados</Text>
+                    </TouchableOpacity>
 
-                <Button
-                    onPress={() => { this.props.navigation.navigate('Session'); }}
-                    title={'Config Session'}>
-                </Button>
+                    {/* Salir de sala */}
+                    {/* <TouchableOpacity
+                        style={styles.button}
+                        onPress={async () => { this.cerrarSala() }} // check
+                    >
+                        <Text style={styles.buttonText}>Salir de sala</Text>
+                    </TouchableOpacity> */}
 
-                {/* <MiniChat
+                    {/* Actualizar jugadores en sala */}
+                    <TouchableOpacity
+                        style={styles.button}
+                        onPress={async () => {
+                            this.actualizarJugadoresEnSala()
+                            console.log(this.state.jugadoresEnSala)
+                        }}
+                    >
+                        <Text style={styles.buttonText}>Actualizar jugadores</Text>
+                    </TouchableOpacity>
+
+                    {/* <Button
+                        onPress={() => { this.props.navigation.navigate('Session'); }}
+                        title={'Config Session'}>
+                    </Button> */}
+
+                    {/* <MiniChat
                     idRoom={this.state.idRoom}
                     usuario={this.state.usuario}
                 /> */}
-            </View>
+
+                    {/* spinner y alertas */}
+                    <Spinner
+                        visible={this.state.spinner}
+                        textContent={this.state.msj}
+                        textStyle={{ color: '#FFF' }}
+                    />
+                </View>
+            </>
         );
     }
 }
