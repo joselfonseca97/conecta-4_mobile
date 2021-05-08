@@ -5,7 +5,6 @@ import Board from '../Components/PvsP_Board'
 const fichaVacia = require('../Assets/fichaVacia.png')
 const gameUtil = require('../Utilities/Game')
 const backGroundImagen = require('../Assets/game_background.jpg')
-const backImage = require('../Images/Ingame-Background.jpg')
 
 export default class playerVSplayer extends Component {
 
