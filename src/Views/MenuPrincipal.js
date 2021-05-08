@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, Button, Picker } from 'react-native';
+import { View, Text, Button, Picker, Alert } from 'react-native';
 import style from '../Styles/MenuPrincipal_styles'
 import RadioForm from 'react-native-simple-radio-button';
 
@@ -20,6 +20,31 @@ class MenuPrincipal extends Component {
     };
   }
 
+  startGame = () => {
+    if (this.state.PickerSelectedVal) {
+      if (this.state.value === 0) { // Play against PC
+
+      } else { //Play player vs player
+        let tam;
+        switch (this.state.PickerSelectedVal) {
+          case "7x7":
+            tam = 7
+            break
+          case "8x8":
+            tam = 8
+            break
+          case "9x9":
+            tam = 9
+            break
+          default:
+          tam = 10
+        }
+        this.props.navigation.navigate('PlayerVSplayer', { usuario: this.state.username,size:tam })
+      }
+    } else {
+      alert("seleccione tamaño")
+    }
+  }
 
   render() {
 
@@ -47,14 +72,14 @@ class MenuPrincipal extends Component {
         <Text></Text>
 
         <Button
-          onPress={async () => { }}
+          onPress={this.startGame}
           title={"Iniciar Juego"}>
         </Button>
 
         <Text></Text>
 
         <Button
-          onPress={() => this.props.navigation.navigate('RoomConfig', {usuario: this.state.username})}
+          onPress={() => this.props.navigation.navigate('RoomConfig', { usuario: this.state.username })}
           title={'Salas'}>
         </Button>
 

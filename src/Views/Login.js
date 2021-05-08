@@ -36,7 +36,6 @@ export default class Login extends Component {
         try {
             let flag = false
             let data = await users.getUsers()   //response.json(); // arreglo con los usuarios
-            console.log(data)
             for (var key in data) {
                 if (this.state.username.trim() === data[key].username) { // if user exists
                     flag=true        
@@ -65,10 +64,6 @@ export default class Login extends Component {
                 <Text style={style.logo} >Conecta_4</Text>
                 <Text></Text>
                 <Text></Text>
-                <Button
-                title="nada"
-                onPress={()=>this.props.navigation.navigate("PlayerVSplayer")}
-                />
                 <View style={style.inputView}>
                     <TextInput placeholder=" Ingrese su usuario"
                         style={style.inputText}

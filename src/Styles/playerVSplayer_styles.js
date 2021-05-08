@@ -4,27 +4,14 @@ import { StyleSheet } from 'react-native'
 export default StyleSheet.create({
     mainContainer: {
         flex: 1,
-        alignContent:'center',
+        alignContent: 'center',
         alignItems: 'center',
         justifyContent: 'center',
-        borderWidth: 1,
-        borderColor: 'red'
     },
     boardContainer: {
-        flex: 1,
-        flexDirection:'row',
-        borderColor: 'green',
-        borderWidth: 1,
-        display:'flex',
-        alignItems:'center',
-        alignContent:'center',
-        justifyContent: 'center',
-        maxHeight:wp(100),
-        maxHeight:hp(100),
-        width:wp(100),
-        height:hp(100),
-        //flexWrap:'wrap',
-        //alignItems: 'flex-start',
+        alignContent: 'center',
+        alignItems: 'center',
+        justifyContent: 'center'
     },
     item: {
         flex: 1,
@@ -37,9 +24,33 @@ export default StyleSheet.create({
         alignItems: "center",
         justifyContent: "center",
     },
-    text: {
+    turnText: {
         color: "white",
-        fontSize: 32
+        fontSize: 25,
+    },
+    TotalTimeText: {
+        color: "white",
+        fontSize: 25,
+    },
+    contentContainer: {
+        backgroundColor: 'rgba(255,255,255,0.8)',
+        alignItems: 'center',
+    },
+    backBtn: {
+        marginTop: 10,
+        borderColor: 'red',
+        borderWidth: 2,
+        alignSelf: 'stretch',
+    },
+    backGroundImage: {
+        flex: 1,
+        justifyContent: 'center',
+        resizeMode: 'cover',
+    },
+    downCounterText:{
+        color:'red',
+        fontWeight:'bold',
+        fontSize:25
     }
 
 })

@@ -2,23 +2,23 @@ import React from 'react'
 import fetch from 'node-fetch'
 import Constants from "expo-constants";
 const { manifest } = Constants;
-//const uri=`http://${manifest.debuggerHost.split(':').shift()}:4000`
+const uri = `http://${manifest.debuggerHost.split(':').shift()}:4000`
 
-async function createMatrix(n){
-    //let response= await fetch(`${uri}/api/creatematrix`,{
-        let response= await fetch(`http://localhost:4000/api/creatematrix`,{
-        method:'post',
-        headers:{ 'Content-type': 'application/json' },
-        body:JSON.stringify({size:n})
+async function createMatrix(n) {
+    let response = await fetch(`${uri}/api/creatematrix`, {
+        //let response= await fetch(`http://localhost:4000/api/creatematrix`,{
+        method: 'post',
+        headers: { 'Content-type': 'application/json' },
+        body: JSON.stringify({ size: n })
     })
-    if(response.status===200){
+    if (response.status === 200) {
         const data = await response.json()
         return data
-    }else{
+    } else {
         return false
     }
 }
-function buscarFondo(index,n,matrix) {
+function buscarFondo(index, n, matrix) {
     var total = (n * n) - 1; // total number of index
 
     // validate if current position is not used
@@ -52,10 +52,41 @@ function buscarFondo(index,n,matrix) {
     }
     return index;
 }
+async function checkWin(color, size, matrix) {
+    let res = await fetch(`${uri}/api/validateWin`, {
+        method: 'post',
+        headers: { 'Content-type': 'application/json' },
+        body: JSON.stringify({
+            size: size,
+            matrix: matrix,
+            color: color
+        })
+    })
+    const data= await res.json()
+    if(data.msg!=0){ //hay ganador
+        return true
+    }else{
+        return false
+    }
+}
 
+function checkFullBoard(matrix,size){
+    let tam=0
+    matrix.map((index)=>{
+        if(index!=0){
+            tam=tam+1
+        }
+    })
+    if(tam==size*size){
+        return true
+    }else{
+        return false
+    }
+}
 
-
-export{
+export {
     createMatrix,
-    buscarFondo
+    buscarFondo,
+    checkWin,
+    checkFullBoard
 }

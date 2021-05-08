@@ -44,9 +44,6 @@ export default class Register extends Component {
     }
 
 
-    a = () => { // for testing different functionalities
-    }
-
     registerProcess = async () => {
         this.setState({ spinner: true })
         let flag = true
@@ -124,7 +121,7 @@ export default class Register extends Component {
                         </ScrollView>
                     </Modal>
 
-                    <Button title='' onPress={this.a} />
+                    <Button title='' />
                     <View style={style.secondaryContainer}>
                         <Text style={style.registroText}>Registro</Text>
                         <TextInput
