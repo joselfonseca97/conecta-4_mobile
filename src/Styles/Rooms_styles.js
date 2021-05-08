@@ -33,7 +33,9 @@ export default StyleSheet.create({
         marginTop: wp('3'),
         marginLeft: wp('25%'),
         marginRight: wp('25%'),
-        borderRadius: 30
+        borderRadius: 30,
+        /* shadow */
+        elevation: 15, // Android
     },
     buttonText: {
         color: 'white',
@@ -58,7 +60,7 @@ export default StyleSheet.create({
 
     mainContainer: {
         flex: 1,
-        backgroundColor: 'navy',
+        backgroundColor: '#0D47A1',
     },
     imageAvatarPrincipal: {
         height: hp('15%'),
@@ -78,29 +80,42 @@ export default StyleSheet.create({
     },
     codigoSala: {
         fontFamily: 'notoserif',
-        fontSize: 22,
+        fontSize: 20,
         textAlign: 'center',
         color: 'white',
         backgroundColor: 'orangered',
         marginLeft: '25%',
         marginRight: '25%',
         marginTop: '5%',
-        marginBottom: '5%'
+        marginBottom: '6%'
     },
     /* imagen texto Sala de juego */
     image: {
         alignSelf: 'center',
         marginTop: wp('0%'),
-        //marginBottom: hp('5%'),
+        //marginBottom: hp('1%'),
+    },
+    viewScrollOnRoom:{
+        backgroundColor: 'gray',
+        borderRadius: 15,
+        marginLeft: wp('5%'),
+        marginRight: wp('5%') 
+    },
+    viewScrollOnline:{
+        top: hp('30%'),
+        backgroundColor: 'gray',
+        borderRadius: 15,
+        marginLeft: wp('5%'),
+        marginRight: wp('5%') 
     },
     scrollViewUsuariosConectados: {
-        alignSelf: 'center',
         backgroundColor: 'yellowgreen',
-        marginTop: wp('3%'),
-        marginBottom: wp('52%'),
-        marginRight: wp('1%'),
-        marginLeft: wp('1%'),
-        borderRadius: 15
+        alignSelf: 'center',
+        marginTop: wp('5%'),
+        marginBottom: wp('4%'),
+        width: wp('80%'),
+        height: hp('15%'),
+        borderRadius: 3
     }, 
     /* avatars usuarios conectados */
     imageAvatar: {
@@ -117,6 +132,33 @@ export default StyleSheet.create({
         fontFamily: 'notoserif',
         fontSize: 17,
         textAlign: 'center',
+        fontWeight: 'bold',
+    },
+    texto2: { /* texto: lista de jugadores en linea */
+        fontSize: 18,
+        color: 'white',
+        textAlign: 'center',
+        fontWeight: 'bold',
+        marginTop: wp('2%'),
+        marginBottom: wp('2%'),
+        fontFamily: 'sans-serif-medium',
+        fontWeight: 'bold',
+    },
+    button2: { /* botones en sala */
+        alignItems: 'center',
+        padding: wp(2),
+        backgroundColor: 'green',
+        marginLeft: wp('23%'),
+        marginRight: wp('23%'),
+        borderRadius: 15,
+        marginBottom: wp('4%'),
+        /* shadow */
+        elevation: 15, // Android
+        
+    },
+    buttonText2: {
+        color: 'black',
+        fontSize: wp('4'),
         fontWeight: 'bold'
-    }
+    },
 })

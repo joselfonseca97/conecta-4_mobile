@@ -5,11 +5,9 @@ import Login from '../src/Views/Login';
 import Register from '../src/Views/Register';
 import MenuPrincipal from '../src/Views/MenuPrincipal';
 import playerVSplayer from '../src/Views/playerVSplayer';
-import Rooms from '../src/Views/Rooms';
-import Session from '../src/Views/Session';
 import RoomConfig from '../src/Views/RoomConfig'
-
-// import login_borrar from '../src/Views/login_borrar';
+import RoomNavigator from '../src/Views/RoomNavigator';
+import Session from '../src/Views/Session';
 
 const Stack = createStackNavigator();
 
@@ -42,9 +40,8 @@ export default function App() {
           component={RoomConfig}
         />
         <Stack.Screen
-          name="Rooms"
-          component={Rooms}
-          options={{ title: 'Ventana Rooms' }}
+          name="RoomNavigator"
+          component={RoomNavigator}
         />
         <Stack.Screen
           name="Session"

@@ -3,7 +3,7 @@ import { View, Text, Trans, Touchable, ScrollView, TextInput } from 'react-nativ
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import styles from '../Styles/MiniChat_Style'
 import { map } from 'lodash'
-
+/* 
 export default class MiniChat extends React.Component {
 
     constructor(props) {
@@ -13,7 +13,7 @@ export default class MiniChat extends React.Component {
             usuario: props.usuario, // obtiene el usuario desde props
             msjs: [
                 {
-                    msj: '¿jugamos?',
+                    msj: ,
                     remitente: 'Ronald',
                     hora: '07:25'
                 }, {
@@ -64,12 +64,64 @@ export default class MiniChat extends React.Component {
                 <TouchableOpacity
                     title="Enviar"
                     style={styles.sendButton}
-                    onPress={() => console.log("Enviando...")}
+                    onPress={() => console.log("Enviando..." + this.state.usuario)}
                 >
                     <Text>Enviar</Text>
                 </TouchableOpacity>
 
             </View>
         )
+    }
+} */
+
+import { GiftedChat } from 'react-native-gifted-chat';
+
+export default class MiniChat extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            messages: [
+                {
+                    _id: 1,
+                    text: 'Ronald: ¿jugamos?',
+                    //createdAt: new Date(Date.UTC(2016, 7, 30, 17, 20, 0)),
+                    user: {
+                        _id: 2,
+                        name: 'React Native',
+                        avatar: 'https://upload.wikimedia.org/wikipedia/commons/d/d3/User_Circle.png',
+                    },
+                },
+                {
+                    _id: 2,
+                    text: 'Jose: Claro que sí',
+                    //createdAt: new Date(Date.UTC(2016, 7, 30, 17, 20, 0)),
+                    user: {
+                        _id: 2,
+                        name: 'React Native',
+                        avatar: 'https://upload.wikimedia.org/wikipedia/commons/d/d3/User_Circle.png',
+                    },
+                },
+            ]
+        };
+        this.onSend = this.onSend.bind(this);
+    }
+
+    onSend(messages = []) {
+        this.setState((previousState) => {
+            return {
+                messages: GiftedChat.append(previousState.messages, messages),
+            };
+        });
+    }
+    render() {
+        return (
+            <GiftedChat
+                messages={this.state.messages}
+                onSend={this.onSend}
+                user={{
+                    _id: 1,
+                }}
+            />
+        );
     }
 }

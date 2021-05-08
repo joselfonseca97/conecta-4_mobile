@@ -24,7 +24,7 @@ const anadirJugadorSalaBD = async (idSala, jugador) => {
             body: JSON.stringify(body)
         });
         let json = await response.json();
-        return json.msj;
+        return json.msg;
     } catch (error) {
         Alert.alert("A ocurrido un error inesperado");
         return 0;
@@ -32,7 +32,7 @@ const anadirJugadorSalaBD = async (idSala, jugador) => {
 }
 
 /**/
-const enviarInvitacion = async (idSala, invitador, invitado) => {
+const enviarInvitacionBD = async (idSala, invitador, invitado) => {
     const url = baseURL + '/api/addInvitacion';
     const body = { "idSala": idSala, "invitador": invitador, "invitado": invitado };
     try {
@@ -45,9 +45,10 @@ const enviarInvitacion = async (idSala, invitador, invitado) => {
             body: JSON.stringify(body)
         });
         let json = await response.json();
-        return json.msj;
+        return json.msg;
     } catch (error) {
         Alert.alert("No se ha podido envíar la invitación");
+        return 0;
     }
 }
 
@@ -72,7 +73,7 @@ const getUsuariosConectados = async (username) => {
     }
 }
 
-/* probar */
+/**/
 const getUsuariosEnSalaBD = async (idSala, username) => { /* username es para no retornar el mismo */
     const url = baseURL + '/api/getUsuariosEnSala'
     const body = {
@@ -144,7 +145,7 @@ const crearSalaBD = async (anfitrion) => {
 }
 
 /**/
-const obtenerIdSala = async (username) => {
+const obtenerIdSalaBD = async (username) => {
     const url = baseURL + '/api/getLastIdRoom'
     const body = { "username": username };
     try {
@@ -157,9 +158,9 @@ const obtenerIdSala = async (username) => {
             body: JSON.stringify(body)
         });
         let json = await response.json();
+        console.log(json)
         return json.id;
     } catch (error) {
-        Alert.alert("A ocurrido un error inesperado al obtener id sala");
         return -1;
     }
 }
@@ -220,7 +221,7 @@ const eliminarInvitacionBD = async (idSala, invitador, invitado) => {
             body: JSON.stringify(body)
         });
         let json = await response.json();
-        return json.msj;
+        return json.msg;
     } catch (error) {
         Alert.alert("No se ha podido eliminar la invitación");
         return 0;
@@ -230,9 +231,9 @@ const eliminarInvitacionBD = async (idSala, invitador, invitado) => {
 export {
     crearSalaBD,
     anadirJugadorSalaBD,
-    enviarInvitacion,
+    enviarInvitacionBD,
     obtenerInvitacionesBD,
-    obtenerIdSala,
+    obtenerIdSalaBD,
     obtenerInfoUsuarioBD,
     getUsuariosConectados,
     cerrarSalaBD,

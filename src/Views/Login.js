@@ -38,18 +38,18 @@ export default class Login extends Component {
             let data = await users.getUsers()   //response.json(); // arreglo con los usuarios
             for (var key in data) {
                 if (this.state.username.trim() === data[key].username) { // if user exists
-                    flag=true        
+                    flag = true
                     if (md5(this.state.password.trim()) === data[key].password) { // if correct password 
-                        const obj = {'usuario': this.state.username}
+                        const obj = { 'usuario': this.state.username }
                         this.props.navigation.navigate('MenuPrincipal', obj)
                     } else {
                         alert("¡Su contraseña es incorrecta!");
                     }
                 }
-            }if(!flag){
+            } if (!flag) {
                 alert("This user is not registered")
             }
-            
+
         } catch (error) {
             alert("A ocurrido un error inesperado");
         }
@@ -59,7 +59,7 @@ export default class Login extends Component {
     render() {
 
         return (
-            
+
             <View style={style.mainContainer}>
                 <Text style={style.logo} >Conecta_4</Text>
                 <Text></Text>
