@@ -79,18 +79,17 @@ export default class playerVSplayer extends Component {
     render() {
         return (
             <View style={style.mainContainer}>
-                <View>
+                <View style={{marginBottom:4}}>
                     <Button
-                        title="hi"
+                        title="for Testing"
                         onPress={() => console.log(this.state.matrix)}
                     />
                 </View>
-                <View style={style.boardContainer}>
-                    <Board matrix={this.state.matrix} size={this.state.size}/>
+                <View style={{borderColor:'red',borderWidth:1,alignContent:'center',alignItems:'center',justifyContent:'center'}}>
+                    <Board matrix={this.state.matrix} size={this.state.size} />
                 </View>
-                {/*       <Text>player vs player</Text> 
-                <Text>{this.state.totalMinutes + ":" + this.state.totalSeconds}</Text>
-                <Text>{this.state.downSecond}</Text>  */}
+               {/*  <Text>{this.state.totalMinutes + ":" + this.state.totalSeconds}</Text>
+                <Text>{this.state.downSecond}</Text> */}
             </View>
         )
     }
