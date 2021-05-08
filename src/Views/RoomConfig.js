@@ -7,12 +7,13 @@ import { Input } from 'react-native-elements';
 import { map, size } from 'lodash'
 import {
     crearSalaBD,
-    obtenerIdSala,
+    obtenerIdSalaBD,
     obtenerInfoUsuarioBD,
     anadirJugadorSalaBD,
     eliminarInvitacionBD,
     obtenerInvitacionesBD
 } from '../Utilities/Rooms_helpers'
+import ThemedListItem from 'react-native-elements/dist/list/ListItem';
 
 export default class RoomConfig extends React.Component {
 
@@ -25,7 +26,8 @@ export default class RoomConfig extends React.Component {
             showAlert: false,
             showAlert2: false,
             msj: '',
-            invitaciones: []
+            invitaciones: [],
+            index: null /* borrar invitacion al indice selecccionado */
         };
     }
 
@@ -57,18 +59,35 @@ export default class RoomConfig extends React.Component {
     eliminarInvitacion = async () => {
         /* Crea la sala en la base de datos */
         const eliminado = await eliminarInvitacionBD(this.state.idSala, this.state.msj, this.state.usuario);
-        return (eliminado === 0) ? false : true; // 0:error, 1:exito
+        /* elimina invitacion local */
+        if (eliminado === 1) { 
+            this.eliminarInvitacionLocal();
+            return true;
+        }
+        return false;
+    }
+
+
+    eliminarInvitacionLocal = () => {
+        /* elimina invitacion local */
+        const invTemp = this.state.invitaciones;
+        if (this.state.index !== null) {
+            invTemp.splice(this.state.index, 1);
+            this.setState({ invitaciones: invTemp });
+        }
+    }
+
+    
+    obtenerIdSala = async () => {
+        /* Obtener el id de la sala creada */
+        const idSala = await obtenerIdSalaBD(this.state.usuario);
+        return idSala;
     }
 
 
     obtenerInfoUsuario = async () => {
         const usr = this.state.usuario;
-        const idSala = await obtenerIdSala(usr); /* Obtener el id de la sala creada */
-
-        if (idSala === -1) {
-            return null
-        }
-
+        
         /* Obtiene los datos iniciales del usuario */
         const json = await obtenerInfoUsuarioBD(usr) /* nombre y id_avatar */
         if (json === null) {
@@ -76,7 +95,6 @@ export default class RoomConfig extends React.Component {
         }
 
         return {
-            'idSala': idSala,
             'usuario': usr,
             'nombre': json.name,
             'avatar_id': json.avatar_id
@@ -95,18 +113,27 @@ export default class RoomConfig extends React.Component {
             return;
         }
 
+        const idSala = await this.obtenerIdSala();
+        if (idSala === -1) {
+            this.cambiarEstadoSpinner('');
+            this.cambiarEstadoAlerta('No se pudo conectar a la sala, intente de nuevo');
+            return;
+        }
+
         const obj = await this.obtenerInfoUsuario();
         if (obj === null) {
             this.cambiarEstadoSpinner('');
             this.cambiarEstadoAlerta('No se obtuvieron los datos del jugador')
             return
         }
+
+        obj['idSala'] = idSala;
         this.cambiarEstadoSpinner('');
-        this.props.navigation.navigate('Rooms', obj);
+        this.props.navigation.navigate('RoomNavigator', obj);
     }
 
 
-    unirseASala = async () => {
+    unirseASala = async (idSala) => {
         this.cambiarEstadoSpinner('Ingresando a la sala...')
 
         const obj = await this.obtenerInfoUsuario();
@@ -115,6 +142,7 @@ export default class RoomConfig extends React.Component {
             return
         }
 
+        obj['idSala'] = this.state.idSala;
         const anadido = await this.anadirJugadorSala();
         if (!anadido) {
             this.cambiarEstadoSpinner('');
@@ -123,10 +151,11 @@ export default class RoomConfig extends React.Component {
         }
 
         /* eliminar la invitación */
-        await this.eliminarInvitacion();
-
+        const eliminado = await this.eliminarInvitacion();
         this.cambiarEstadoSpinner('');
-        this.props.navigation.navigate('Rooms', obj);
+        if (eliminado) {
+            this.props.navigation.navigate('RoomNavigator', obj);
+        }
     }
 
 
@@ -193,7 +222,7 @@ export default class RoomConfig extends React.Component {
                                             msj: object.nombreInv,
                                             idSala: parseInt(object.idSala)
                                         });
-                                        this.setState({ showAlert2: true })
+                                        this.setState({ index: index, showAlert2: true })
                                     }}
                                 >
                                     <Input
@@ -208,53 +237,52 @@ export default class RoomConfig extends React.Component {
                         }
                     </ScrollView>
 
-                    {/* spinner y alertas */}
-                    <Spinner
-                        visible={this.state.spinner}
-                        textContent={this.state.msj}
-                        textStyle={{ color: '#FFF' }}
-                    />
-
-                    <AwesomeAlert
-                        show={this.state.showAlert}
-                        showProgress={false}
-                        title="Aviso"
-                        message={this.state.msj}
-                        closeOnTouchOutside={true}
-                        closeOnHardwareBackPress={true}
-                        showConfirmButton={true}
-                        confirmText="Ok"
-                        confirmButtonColor="deepskyblue"
-                        onConfirmPressed={() => { this.cambiarEstadoAlerta('') }}
-                        onDismiss={() => { this.cambiarEstadoAlerta('') }}
-                    />
-
-                    <AwesomeAlert
-                        show={this.state.showAlert2}
-                        showProgress={false}
-                        title="Invitación"
-                        message={`¿Aceptar invitación de ${this.state.msj}?`}
-                        closeOnTouchOutside={true}
-                        closeOnHardwareBackPress={true}
-                        showCancelButton={true}
-                        showConfirmButton={true}
-                        cancelText="No"
-                        confirmText="Sí"
-                        confirmButtonColor="mediumvioletred"
-                        onCancelPressed={async () => {
-                            this.setState({ showAlert2: false })
-                            await this.eliminarInvitacion(); /* eliminar la invitación */
-                        }}
-                        onConfirmPressed={() => {
-                            this.setState({ showAlert2: false });
-                            this.unirseASala();
-                        }}
-                        onDismiss={() => { // click fuera de la alerta
-                            this.setState({ showAlert2: false })
-                        }}
-                    />
-
                 </View>
+
+                {/* spinner y alertas */}
+                <Spinner
+                    visible={this.state.spinner}
+                    textContent={this.state.msj}
+                    textStyle={{ color: '#FFF' }}
+                />
+
+                <AwesomeAlert
+                    show={this.state.showAlert}
+                    showProgress={false}
+                    title="Aviso"
+                    message={this.state.msj}
+                    closeOnTouchOutside={true}
+                    closeOnHardwareBackPress={true}
+                    showConfirmButton={true}
+                    confirmText="Ok"
+                    confirmButtonColor="deepskyblue"
+                    onConfirmPressed={() => { this.cambiarEstadoAlerta('') }}
+                />
+
+                <AwesomeAlert
+                    show={this.state.showAlert2}
+                    showProgress={false}
+                    title="Invitación"
+                    message={`¿Aceptar invitación de ${this.state.msj}?`}
+                    closeOnTouchOutside={true}
+                    closeOnHardwareBackPress={true}
+                    showCancelButton={true}
+                    showConfirmButton={true}
+                    cancelText="No"
+                    confirmText="Sí"
+                    confirmButtonColor="mediumvioletred"
+                    onCancelPressed={async () => {
+                        this.setState({ showAlert2: false })
+                        await this.eliminarInvitacion(); /* eliminar la invitación */
+                    }}
+                    onConfirmPressed={() => {
+                        this.setState({ showAlert2: false });
+                        this.unirseASala();
+                    }}
+                    onDismiss={() => { // click fuera de la alerta
+                        this.setState({ showAlert2: false })
+                    }}
+                />
             </>
         );
     }
