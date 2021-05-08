@@ -12,7 +12,7 @@ export default StyleSheet.create({
     },
     boardContainer: {
         flex: 1,
-        flexDirection:'column',
+        flexDirection:'row',
         borderColor: 'green',
         borderWidth: 1,
         display:'flex',

@@ -5,33 +5,7 @@ import { TouchableHighlight } from 'react-native-gesture-handler'
 const fichaRoja = require('../Assets/fichaRoja.png')
 const fichaAmarilla = require('../Assets/fichaAmarilla.png')
 const fichaVacia = require('../Assets/fichaVacia.png')
-
 var tam = 0
-
-const Cat = () => {
-    for (let i = 1; i < 9; i++) {
-        if (i % 9 === 0) {
-            return (
-                <Text>{'\n'}</Text>
-            )
-        }
-        return (
-            <Text><TouchableHighlight >
-                <Image
-                    style={{
-                        flex: 1,
-                        width: null,
-                        height: null,
-                        resizeMode: 'contain'
-                    }}
-                    source={fichaVacia}
-                />
-            </TouchableHighlight></Text>
-        )
-
-    }
-
-}
 
 export default class PvsP_Board extends Component {
     constructor(props) {
@@ -66,7 +40,32 @@ export default class PvsP_Board extends Component {
 
     render() {
         return (
-            <Cat />
+            this.state.matrix.map((ima, index) => {
+                if (ima === 0) {
+                    if ((index + 1) % this.state.size === 0) {
+                        return (
+                            <Fragment>
+                                <TouchableHighlight style={this.imageStyleContainer()}>
+                                    <Image
+                                        style={{ flex: 1, width: null, height: null, resizeMode: 'contain' }}
+                                        source={fichaVacia}
+                                    />
+                                </TouchableHighlight>
+                                {/* aqui deberia ir el salto de linea */}
+                            </Fragment>
+                        )
+                    } else {
+                        return (
+                            <TouchableHighlight style={this.imageStyleContainer()}>
+                                <Image
+                                    style={{ flex: 1, width: null, height: null, resizeMode: 'contain' }}
+                                    source={fichaVacia}
+                                />
+                            </TouchableHighlight>
+                        )
+                    }
+                }
+            })
         )
     }
 }
