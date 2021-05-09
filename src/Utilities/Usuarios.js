@@ -34,9 +34,7 @@ async function setOnlinePlayer (username) {
             headers: { 'Content-type': 'application/json' }
         }
     );
-    console.log("ESTADO")
     const data = await response.json();
-    console.log(data);
 }
 
 
