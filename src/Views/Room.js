@@ -11,7 +11,10 @@ import AwesomeAlert from 'react-native-awesome-alerts';
 
 import {
     getUsuariosEnSalaBD,
-    cerrarSalaBD
+    eliminarInvitacionBD,
+    crearSessionBD,
+    eliminarSessionBD,
+    cerrarSalaBD,
 } from '../Utilities/Rooms_helpers'
 
 export default class Rooms extends React.Component {
@@ -25,6 +28,8 @@ export default class Rooms extends React.Component {
             avatar_id: this.props.avatar_id,
             jugadoresEnSala: [],
             spinner: false,
+            showAlert: false,
+            showAlert2: false,
             msj: ''
         };
     }
@@ -32,6 +37,11 @@ export default class Rooms extends React.Component {
 
     cambiarEstadoSpinner = (msj) => {
         this.setState({ msj: msj, spinner: !this.state.spinner });
+    }
+
+
+    cambiarEstadoAlerta = (msj) => {
+        this.setState({ msj: msj, showAlert: !this.state.showAlert });
     }
 
 
@@ -54,6 +64,40 @@ export default class Rooms extends React.Component {
         this.cambiarEstadoSpinner('')
     }
 
+
+    eliminarInvitacion = async () => {
+        /* Crea la sala en la base de datos */
+        const eliminado = await eliminarInvitacionBD(this.state.idRoom, this.state.usuario, this.state.msj);
+        /* elimina invitacion local */
+        if (eliminado === 1) {
+            this.eliminarInvitacionLocal();
+            return true;
+        }
+        return false;
+    }
+
+
+    crearSession = async (invitado) => {
+        this.cambiarEstadoSpinner('Enviando invitación...')
+        const creada = await crearSessionBD(this.state.idRoom, this.state.usuario, invitado);
+        this.cambiarEstadoSpinner('')
+        if (creada === 0) {
+            this.cambiarEstadoAlerta('Intente nuevamente')
+            return;
+        }
+        this.setState({ msj: invitado }) /* Guarda el nombre para eliminar sesion si le da en cancelar */
+        this.setState({ showAlert2: true })
+    }
+
+    eliminarSession = async () => {
+        const eliminada = await eliminarSessionBD(this.state.idRoom, this.state.usuario, this.state.msj);
+        if (eliminada === 0) {
+            this.cambiarEstadoAlerta('Intente de nuevo')
+            return;
+        }
+        this.setState({ showAlert2: false })
+    }
+
     cerrarSala = async () => {
         //const deleted = await cerrarSalaBD(this.state.idRoom)
         //console.log('deleted '+ deleted)
@@ -65,7 +109,7 @@ export default class Rooms extends React.Component {
         this.props.navigation.navigate('RoomConfig');
     }
 
-    render() {        
+    render() {
         return (
             <>
                 <View style={styles.mainContainer}>
@@ -111,7 +155,7 @@ export default class Rooms extends React.Component {
                                         <Avatar
                                             style={styles.imageAvatar}
                                             source={this.getAvatarImage(object.avatar_id)}
-                                            onPress={async () => { this.enviarInvitacionAux(object.usuario, object.nombre) }}
+                                            onPress={async () => { await this.crearSession(object.usuario) }}
                                         />
                                         <Text style={styles.textAvatar}>{object.nombre}</Text>
                                     </View>
@@ -150,6 +194,39 @@ export default class Rooms extends React.Component {
                     visible={this.state.spinner}
                     textContent={this.state.msj}
                     textStyle={{ color: '#FFF' }}
+                />
+
+                <AwesomeAlert
+                    show={this.state.showAlert}
+                    showProgress={false}
+                    title="Aviso"
+                    message={this.state.msj}
+                    closeOnTouchOutside={true}
+                    closeOnHardwareBackPress={true}
+                    showConfirmButton={true}
+                    confirmText="Ok"
+                    confirmButtonColor="deepskyblue"
+                    onConfirmPressed={() => {
+                        this.setState({ showAlert: false });
+                    }}
+                    onDismiss={() => { // click fuera de la alerta
+                        this.setState({ showAlert: false });
+                    }}
+                />
+
+                <AwesomeAlert
+                    show={this.state.showAlert2}
+                    showProgress={false}
+                    title="Invitación enviada"
+                    message="Esperando a que el jugador acepte la invitación..."
+                    closeOnTouchOutside={false}
+                    closeOnHardwareBackPress={false}
+                    showCancelButton={true}
+                    cancelText="Cancelar invitación"
+                    cancelButtonColorButtonColor="deepskyblue"
+                    onCancelPressed={async () => {
+                        await this.eliminarSession(); /* elimina la sessión */
+                    }}
                 />
             </>
         );

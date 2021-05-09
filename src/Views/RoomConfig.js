@@ -27,6 +27,7 @@ export default class RoomConfig extends React.Component {
             showAlert2: false,
             msj: '',
             invitaciones: [],
+            usernameInv: null,
             index: null /* borrar invitacion al indice selecccionado */
         };
     }
@@ -58,9 +59,9 @@ export default class RoomConfig extends React.Component {
 
     eliminarInvitacion = async () => {
         /* Crea la sala en la base de datos */
-        const eliminado = await eliminarInvitacionBD(this.state.idSala, this.state.msj, this.state.usuario);
+        const eliminado = await eliminarInvitacionBD(this.state.idSala, this.state.usernameInv, this.state.usuario);
         /* elimina invitacion local */
-        if (eliminado === 1) { 
+        if (eliminado === 1) {
             this.eliminarInvitacionLocal();
             return true;
         }
@@ -77,7 +78,7 @@ export default class RoomConfig extends React.Component {
         }
     }
 
-    
+
     obtenerIdSala = async () => {
         /* Obtener el id de la sala creada */
         const idSala = await obtenerIdSalaBD(this.state.usuario);
@@ -87,7 +88,7 @@ export default class RoomConfig extends React.Component {
 
     obtenerInfoUsuario = async () => {
         const usr = this.state.usuario;
-        
+
         /* Obtiene los datos iniciales del usuario */
         const json = await obtenerInfoUsuarioBD(usr) /* nombre y id_avatar */
         if (json === null) {
@@ -133,7 +134,7 @@ export default class RoomConfig extends React.Component {
     }
 
 
-    unirseASala = async (idSala) => {
+    unirseASala = async () => {
         this.cambiarEstadoSpinner('Ingresando a la sala...')
 
         const obj = await this.obtenerInfoUsuario();
@@ -220,9 +221,11 @@ export default class RoomConfig extends React.Component {
                                     onPress={async () => {
                                         this.setState({
                                             msj: object.nombreInv,
-                                            idSala: parseInt(object.idSala)
+                                            idSala: object.idSala,
+                                            usernameInv: object.invitador,
+                                            index: index,
+                                            showAlert2: true
                                         });
-                                        this.setState({ index: index, showAlert2: true })
                                     }}
                                 >
                                     <Input

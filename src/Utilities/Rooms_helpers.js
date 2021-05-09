@@ -6,7 +6,7 @@ const baseURL = 'http://10.0.2.2:4000'
 
 /////// METODOS DENTRO DE SALA ////////
 
-/* probar */
+/**/
 const anadirJugadorSalaBD = async (idSala, jugador) => {
     const url = baseURL + '/api/addPlayersRoom';
     const body = {
@@ -31,7 +31,7 @@ const anadirJugadorSalaBD = async (idSala, jugador) => {
     }
 }
 
-/**/
+/* invitacion a sala */
 const enviarInvitacionBD = async (idSala, invitador, invitado) => {
     const url = baseURL + '/api/addInvitacion';
     const body = { "idSala": idSala, "invitador": invitador, "invitado": invitado };
@@ -118,6 +118,49 @@ const cerrarSalaBD = async (id) => {
     }
 }
 
+/* Probar */
+const crearSessionBD = async (idSala, jugador1, jugador2) => {
+    const url = baseURL + '/api/addSessions';
+    const body = { "idSala": idSala, "jugador1": jugador1, "jugador2": jugador2 };
+    try {
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(body)
+        });
+        let json = await response.json();
+        return json.msg;
+    } catch (error) {
+        Alert.alert("No se pudo crear la sesión");
+        return 0;
+    }
+}
+
+/* probar */
+const eliminarSessionBD = async (idSala, jugador1, jugador2) => {
+    const url = baseURL + '/api/deleteSession';
+    const body = { "idSala": idSala, "jugador1": jugador1, "jugador2": jugador2 };
+
+    try {
+        const response = await fetch(url, {
+            method: 'DELETE',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(body)
+        });
+        let json = await response.json();
+        return json.msg;
+    } catch (error) {
+        Alert.alert("No se ha podido eliminar la sesión");
+        return 0;
+    }
+}
+
 /////// METODOS FUERA DE SALA ////////
 
 /**/
@@ -158,7 +201,6 @@ const obtenerIdSalaBD = async (username) => {
             body: JSON.stringify(body)
         });
         let json = await response.json();
-        console.log(json)
         return json.id;
     } catch (error) {
         return -1;
@@ -238,5 +280,7 @@ export {
     getUsuariosConectados,
     cerrarSalaBD,
     eliminarInvitacionBD,
-    getUsuariosEnSalaBD
+    getUsuariosEnSalaBD,
+    crearSessionBD,
+    eliminarSessionBD
 };
