@@ -32,7 +32,6 @@ export default class Login extends Component {
     }
 
     logIn = async () => {
-        //const url = 'http://localhost:4000/api/getUsuarios' //por el momento solo en web. Se puede cambiar a la direccion de Android
         try {
             let flag = false
             let data = await users.getUsers()   //response.json(); // arreglo con los usuarios
@@ -41,7 +40,9 @@ export default class Login extends Component {
                     flag = true
                     if (md5(this.state.password.trim()) === data[key].password) { // if correct password 
                         const obj = { 'usuario': this.state.username }
-                        this.props.navigation.navigate('MenuPrincipal', obj)
+                        if (users.setOnlinePlayer(this.state.username)) {
+                            this.props.navigation.navigate('MenuPrincipal', obj)
+                        }
                     } else {
                         alert("¡Su contraseña es incorrecta!");
                     }

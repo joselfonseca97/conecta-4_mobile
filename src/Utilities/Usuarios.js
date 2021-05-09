@@ -26,9 +26,23 @@ async function addUser(info) {
         return true
     } return false
 }
+async function setOnlinePlayer (username) {
+    const response = await fetch(`${uri}/api/setOnlineUser`,
+        {
+            method: "post",
+            body: JSON.stringify({ "username": username }),
+            headers: { 'Content-type': 'application/json' }
+        }
+    );
+    console.log("ESTADO")
+    const data = await response.json();
+    console.log(data);
+}
+
 
 
 export {
     getUsers,
-    addUser
+    addUser,
+    setOnlinePlayer
 }
