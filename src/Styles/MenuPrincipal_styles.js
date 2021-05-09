@@ -7,18 +7,41 @@ export default StyleSheet.create({
           flex: 1,
           backgroundColor: '#66cdaa',
           alignItems: 'center',
-          justifyContent: 'center'
+          justifyContent: 'center',
      },
      logo: {
           fontWeight: "bold",
           fontSize: 50,
           color: "#8a2be2",
-          marginBottom: 40
-      },
+     },
      combo: {
           justifyContent: 'center',
           backgroundColor: '#ffe4c4',
           width: 250,
-          height:30
-        }
+          height: 30
+     },
+     secondaryContainer: {
+          flex: 1,
+          alignContent: 'center',
+          alignItems: 'center',
+          justifyContent:'space-around',
+          width: '85%',
+          maxHeight: '50%',
+          padding: '5%',
+     },
+     radioStyle: {
+          width: '100%'
+     },
+     sizePicker: {
+          width: '100%',
+          backgroundColor:'rgba(255,255,255,0.3)'
+     },
+     mainButtonsContainer: {
+          justifyContent:'space-between',
+          width: '100%'
+     },
+     backButtonContainer: {
+          width: '30%',
+          alignSelf:'flex-start'
+     }
 })

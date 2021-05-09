@@ -8,7 +8,7 @@ import playerVSplayer from '../src/Views/playerVSplayer';
 import RoomConfig from '../src/Views/RoomConfig'
 import RoomNavigator from '../src/Views/RoomNavigator';
 import Session from '../src/Views/Session';
-
+import PlayerVSpc from '../src/Views/PlayerVSpc'
 const Stack = createStackNavigator();
 
 export default function App() {
@@ -47,6 +47,10 @@ export default function App() {
           name="Session"
           component={Session}
           options={{ title: 'Session' }}
+        />
+        <Stack.Screen
+          name='PlayerVSpc'
+          component={PlayerVSpc}
         />
       </Stack.Navigator>
     </NavigationContainer>

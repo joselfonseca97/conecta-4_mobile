@@ -35,7 +35,7 @@ export default class Register extends Component {
     }
     componentDidMount() {
         let getAvatar = avatar.getAvatars()
-        //this.setState({ avatars: getAvatar })
+        this.setState({ avatars: getAvatar })
     }
 
     getUsers = async () => {
@@ -154,18 +154,16 @@ export default class Register extends Component {
                         </View>
                         <View style={style.buttonContainers}>
                             <Button
-                                title="Register"
+                                title="Registrarse"
                                 onPress={this.registerProcess}
                             />
                         </View>
-                        <View style={style.buttonContainers}>
+
+                        <View style={style.backButtonContainer}>
                             <Button
-                                title="login Google"
-                                onPress={() => console.log("tamaño avatar: " + this.state.avatars.length)}
-                            />
-                        </View>
-                        <View>
-                            <Button title='Go back' onPress={() => this.props.navigation.goBack()} />
+                                title='Regresar'
+                                color='#bd0212'
+                                onPress={() => this.props.navigation.goBack()} />
                         </View>
                     </View>
                     {this.state.spinner &&

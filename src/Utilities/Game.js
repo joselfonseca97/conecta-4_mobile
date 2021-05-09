@@ -83,10 +83,26 @@ function checkFullBoard(matrix,size){
         return false
     }
 }
+async function IAMove(matrix,n,cpuColor,rivalColor,level){
+    let res= await fetch(`${uri}/api/nextMoveIA`,{
+        method: 'post',
+        headers: { 'Content-type': 'application/json' },
+        body:JSON.stringify({
+            matrix:matrix,
+            n:parseInt(n),
+            cpuColor:cpuColor,
+            rivalColor:rivalColor,
+            level:level
+        })
+    })
+    let data = await res.json()
+    return data.msg
+}
 
 export {
     createMatrix,
     buscarFondo,
     checkWin,
-    checkFullBoard
+    checkFullBoard,
+    IAMove
 }

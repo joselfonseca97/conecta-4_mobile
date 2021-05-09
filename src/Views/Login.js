@@ -4,6 +4,7 @@ import 'react-native-gesture-handler';
 import { View, Text, Button, TextInput } from 'react-native'
 import style from '../Styles/Login_styles'
 import md5 from 'md5'
+import { TouchableHighlight } from 'react-native-gesture-handler';
 const users = require('../Utilities/Usuarios')
 
 export default class Login extends Component {
@@ -61,42 +62,38 @@ export default class Login extends Component {
         return (
 
             <View style={style.mainContainer}>
-                <Text style={style.logo} >Conecta_4</Text>
-                <Text></Text>
-                <Text></Text>
-                <View style={style.inputView}>
-                    <TextInput placeholder=" Ingrese su usuario"
-                        style={style.inputText}
-                        onChangeText={text => this.setState({ username: text })} />
+                <Text style={style.logo} >Conecta 4!</Text>
+                <View style={style.secondaryContainer}>
+                    <View>
+                        <View style={style.inputView}>
+                            <TextInput placeholder=" Ingrese su usuario"
+                                style={style.inputText}
+                                onChangeText={text => this.setState({ username: text })} />
+                        </View>
+                        <View style={style.inputView}>
+                            <TextInput placeholder=" Ingrese su contraseña"
+                                style={style.inputText}
+                                secureTextEntry={true}
+                                password={true}
+                                onChangeText={text => this.setState({ password: text })} />
+                        </View>
+                    </View>
+                    <View>
+                        <View style={style.loginBtn}>
+                            <Button
+                                title="Iniciar Sesion"
+                                onPress={this.checkTextInput}
+                            />
+                        </View>
+
+                        <View style={style.loginBtn}>
+                            <Button
+                                title="Registrarse"
+                                onPress={() => this.props.navigation.navigate('Register')}
+                            />
+                        </View>
+                    </View>
                 </View>
-
-                <Text></Text>
-                <Text></Text>
-                <View style={style.inputView}>
-                    <TextInput placeholder=" Ingrese su contraseña"
-                        style={style.inputText}
-                        secureTextEntry={true}
-                        password={true}
-                        onChangeText={text => this.setState({ password: text })} />
-                </View>
-
-                <Text></Text>
-
-                <Button
-                    style={style.loginText}
-                    title="Iniciar Sesion"
-                    style={style.loginBtn}
-                    onPress={this.checkTextInput}
-                />
-                <Text></Text>
-
-                <Button
-                    title="Registrarse"
-                    onPress={() => this.props.navigation.navigate('Register')}
-                />
-
-                <Text>OR</Text>
-
             </View>
 
         )

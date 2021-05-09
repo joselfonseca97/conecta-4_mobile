@@ -1,8 +1,7 @@
 import React, { Component } from 'react'
 import { View, Text, Button, ImageBackground } from 'react-native'
-import style from '../Styles/playerVSplayer_styles'
+import style from '../Styles/PlayerVSplayer_styles'
 import Board from '../Components/PvsP_Board'
-const fichaVacia = require('../Assets/fichaVacia.png')
 const gameUtil = require('../Utilities/Game')
 const backGroundImagen = require('../Assets/game_background.jpg')
 
@@ -34,7 +33,6 @@ export default class playerVSplayer extends Component {
 
     createMatrix = async () => {
         let res = await gameUtil.createMatrix(this.state.size)
-        console.log("res: " + res)
         this.setState({ matrix: res.matrix })
     }
 
@@ -49,8 +47,6 @@ export default class playerVSplayer extends Component {
                 else {
                     this.setState({ totalSeconds: this.state.totalSeconds + 1 })
                 }
-            } else {
-                console.log("Tiempo detenido")
             }
         }, 1000)
     }
@@ -64,8 +60,6 @@ export default class playerVSplayer extends Component {
                 else {
                     this.setState({ downSecond: this.state.downSecond - 1 })
                 }
-            } else {
-                console.log("Tiempo detenido")
             }
         }, 1000)
     }
@@ -82,7 +76,7 @@ export default class playerVSplayer extends Component {
         }
     }
     onFinishGame = () => {
-        this.props.navigation.goBack()
+        this.props.navigation.navigate('MenuPrincipal',{usuario:this.state.player1})
     }
     buscarFondo = (index) => {
         let indice = gameUtil.buscarFondo(index, this.state.size, this.state.matrix)
@@ -95,6 +89,8 @@ export default class playerVSplayer extends Component {
             this.checkWin()
             this.checkFullBoard()
             this.turnManager()
+        }else{
+            alert("El juego ha concluido, preciona SALIR")
         }
     }
     updateMatrix = (indice, color) => {
@@ -107,7 +103,6 @@ export default class playerVSplayer extends Component {
         if (res) { // hay ganador
             this.setState({ winner: true, winnerName: this.state.turn })
             alert("Felicidades " + this.state.winnerName + " has ganado!")
-            this.onFinishGame()
         }
     }
     checkFullBoard = () => {

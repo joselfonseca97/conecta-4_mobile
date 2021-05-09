@@ -1,9 +1,7 @@
 import React from 'react';
 import { View } from 'react-native';
 
-import BottomNavigation, {
-    FullTab
-} from 'react-native-material-bottom-navigation'
+import BottomNavigation, {FullTab} from 'react-native-material-bottom-navigation'
 
 import { Icon } from 'react-native-elements'
 

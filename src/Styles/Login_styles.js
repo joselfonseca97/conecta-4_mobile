@@ -8,41 +8,31 @@ export default StyleSheet.create({
         backgroundColor: '#5f9ea0',
         alignItems: 'center',
         justifyContent: 'center',
-        //placeholderTextColor:"#003f5c"
+        alignItems:'center',
     },
     logo: {
         fontWeight: "bold",
         fontSize: 50,
         color: "#8a2be2",
-        marginBottom: 40
+        marginBottom: 50
     },
     inputView: {
-        width: "80%",
         backgroundColor: "#8fbc8f",
         borderRadius: 25,
-        height: 50,
         marginBottom: 20,
-        justifyContent: "center",
+        alignItems:'center',
+        alignContent:'center',
         padding: 20
     },
     inputText: {
-        height: 50,
-        color: "black"
-        
+        textAlign:'center'
     },
     forgot: {
         color: "white",
         fontSize: 11
     },
     loginBtn: {
-        width: "80%",
-        backgroundColor: "#fb5b5a",
-        borderRadius: 25,
-        height: 50,
-        alignItems: "center",
-        justifyContent: "center",
-        marginTop: 40,
-        marginBottom: 10
+        marginBottom: 10,
     },
     loginText: {
         color: "white"
@@ -51,5 +41,12 @@ export default StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
+    },
+    secondaryContainer:{
+        flex:1,
+        padding:'3%',
+        width:'85%',
+        maxHeight:'50%',
+        justifyContent:'space-evenly'
     }
 })

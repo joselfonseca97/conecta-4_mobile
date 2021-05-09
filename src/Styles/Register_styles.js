@@ -11,20 +11,20 @@ export default StyleSheet.create({
     secondaryContainer: {
         width: wp(100),
         height: hp(80),
-        padding: wp(8)
+        padding: '8%'
     },
     registroText: {
         color: 'white',
         fontSize: wp(10),
         textAlign: 'center',
-        marginBottom: hp(5),
+        marginBottom: '12%',
     },
     buttonContainers: {
-        marginBottom: hp(1),
+        marginBottom: '2%',
         borderRadius: 50,
     },
     inputStyle: {
-        marginBottom: hp(5),
+        marginBottom: '11%',
         borderColor: 'black',
         borderWidth: 1,
         backgroundColor: 'rgba(255, 255, 255, 0.3)',
@@ -62,5 +62,9 @@ export default StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         resizeMode: 'cover'
+    },
+    backButtonContainer:{
+        width:'30%',
+        alignSelf:'flex-start'
     }
 })
