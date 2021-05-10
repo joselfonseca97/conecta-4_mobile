@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { View, Text, Button, ImageBackground } from 'react-native'
-import style from '../Styles/PlayerVSplayer_styles'
+import style from '../Styles/playerVSplayer_styles'
 import Board from '../Components/PvsP_Board'
 const gameUtil = require('../Utilities/Game')
 const backGroundImagen = require('../Assets/game_background.jpg')
