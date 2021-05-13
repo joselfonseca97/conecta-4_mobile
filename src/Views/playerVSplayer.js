@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { View, Text, Button, ImageBackground } from 'react-native'
-import style from '../Styles/PlayerVSplayer_styles'
+import style from '../Styles/playerVSplayer_styles'
 import Board from '../Components/PvsP_Board'
 const gameUtil = require('../Utilities/Game')
 const backGroundImagen = require('../Assets/game_background.jpg')
@@ -64,6 +64,8 @@ export default class playerVSplayer extends Component {
         }, 1000)
     }
 
+        
+
     turnManager = () => {
         if (!this.state.winner) {
             if (this.state.turn == this.state.player1) {
@@ -76,7 +78,8 @@ export default class playerVSplayer extends Component {
         }
     }
     onFinishGame = () => {
-        this.props.navigation.navigate('MenuPrincipal',{usuario:this.state.player1})
+        this.setState({winner:true})
+        this.props.navigation.replace('MenuPrincipal',{usuario:this.state.player1})
     }
     buscarFondo = (index) => {
         let indice = gameUtil.buscarFondo(index, this.state.size, this.state.matrix)

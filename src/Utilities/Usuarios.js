@@ -37,10 +37,22 @@ async function setOnlinePlayer (username) {
     const data = await response.json();
 }
 
+async function setOfflinePlayer (username) {
+    const response = await fetch(`${uri}/api/setOfflineUser`,
+        {
+            method: "post",
+            body: JSON.stringify({ "username": username }),
+            headers: { 'Content-type': 'application/json' }
+        }
+    );
+    const data = await response.json();
+}
+
 
 
 export {
     getUsers,
     addUser,
-    setOnlinePlayer
+    setOnlinePlayer,
+    setOfflinePlayer
 }

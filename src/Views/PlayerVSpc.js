@@ -33,7 +33,8 @@ export default class PlayerVSpc extends Component {
         this.startTurnTimer()
     }
     onFinishGame = () => {
-        this.props.navigation.navigate('MenuPrincipal', { usuario: this.state.player1 })
+        this.setState({winner:true})
+        this.props.navigation.replace('MenuPrincipal', { usuario: this.state.player1 })
     }
     createMatrix = async () => {
         let res = await gameUtil.createMatrix(this.state.size)
@@ -115,8 +116,6 @@ export default class PlayerVSpc extends Component {
                 else {
                     this.setState({ totalSeconds: this.state.totalSeconds + 1 })
                 }
-            } else {
-                console.log("Tiempo detenido")
             }
         }, 1000)
     }
@@ -130,8 +129,6 @@ export default class PlayerVSpc extends Component {
                 else {
                     this.setState({ downSeconds: this.state.downSeconds - 1 })
                 }
-            } else {
-                console.log("Tiempo detenido")
             }
         }, 1000)
     }

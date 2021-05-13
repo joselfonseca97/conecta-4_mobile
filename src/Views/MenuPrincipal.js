@@ -3,6 +3,7 @@ import { View, Text, Button, Picker, Alert } from 'react-native';
 import style from '../Styles/MenuPrincipal_styles'
 import RadioForm from 'react-native-simple-radio-button';
 import { TouchableHighlight } from 'react-native-gesture-handler';
+const utils = require('../Utilities/Usuarios')
 
 var radio_props = [
   { label: 'Jugador vs Computadora', value: 0 },
@@ -21,6 +22,10 @@ class MenuPrincipal extends Component {
     };
   }
 
+  onLogOut = async () => {
+    utils.setOfflinePlayer(this.state.username)
+    this.props.navigation.navigate('Login')
+  }
   startGame = () => {
     if (this.state.PickerSelectedVal) {
       let tam;
@@ -51,6 +56,7 @@ class MenuPrincipal extends Component {
 
     return (
       <View style={style.mainContainer}>
+        <Button title='a' onPress={()=>console.log(this.state.username)}/>
         <Text style={style.logo} >BIENVENIDO!</Text>
         <View style={style.secondaryContainer}>
           <View style={style.radioStyle}>
@@ -82,10 +88,10 @@ class MenuPrincipal extends Component {
             </Button>
           </View>
           <View style={style.backButtonContainer}>
-            <Button 
-            title='Regresar'
-            color='#bd0212'
-            onPress={() => this.props.navigation.navigate('Login')} />
+            <Button
+              title='Regresar'
+              color='#bd0212'
+              onPress={this.onLogOut} />
           </View>
         </View>
       </View>
