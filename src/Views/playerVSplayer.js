@@ -64,6 +64,8 @@ export default class playerVSplayer extends Component {
         }, 1000)
     }
 
+        
+
     turnManager = () => {
         if (!this.state.winner) {
             if (this.state.turn == this.state.player1) {
@@ -76,7 +78,8 @@ export default class playerVSplayer extends Component {
         }
     }
     onFinishGame = () => {
-        this.props.navigation.navigate('MenuPrincipal',{usuario:this.state.player1})
+        this.setState({winner:true})
+        this.props.navigation.replace('MenuPrincipal',{usuario:this.state.player1})
     }
     buscarFondo = (index) => {
         let indice = gameUtil.buscarFondo(index, this.state.size, this.state.matrix)

@@ -1,6 +1,7 @@
 import React from 'react'
 import fetch from 'node-fetch'
 import Constants from "expo-constants";
+import { ForceTouchGestureHandler } from 'react-native-gesture-handler';
 const { manifest } = Constants;
 const uri = `http://${manifest.debuggerHost.split(':').shift()}:4000`
 
@@ -62,47 +63,129 @@ async function checkWin(color, size, matrix) {
             color: color
         })
     })
-    const data= await res.json()
-    if(data.msg!=0){ //hay ganador
+    const data = await res.json()
+    if (data.msg != 0) { //hay ganador
         return true
-    }else{
+    } else {
         return false
     }
 }
 
-function checkFullBoard(matrix,size){
-    let tam=0
-    matrix.map((index)=>{
-        if(index!=0){
-            tam=tam+1
+function checkFullBoard(matrix, size) {
+    let tam = 0
+    matrix.map((index) => {
+        if (index != 0) {
+            tam = tam + 1
         }
     })
-    if(tam==size*size){
+    if (tam == size * size) {
         return true
-    }else{
+    } else {
         return false
     }
 }
-async function IAMove(matrix,n,cpuColor,rivalColor,level){
-    let res= await fetch(`${uri}/api/nextMoveIA`,{
+async function IAMove(matrix, n, cpuColor, rivalColor, level) {
+    let res = await fetch(`${uri}/api/nextMoveIA`, {
         method: 'post',
         headers: { 'Content-type': 'application/json' },
-        body:JSON.stringify({
-            matrix:matrix,
-            n:parseInt(n),
-            cpuColor:cpuColor,
-            rivalColor:rivalColor,
-            level:level
+        body: JSON.stringify({
+            matrix: matrix,
+            n: parseInt(n),
+            cpuColor: cpuColor,
+            rivalColor: rivalColor,
+            level: level
         })
     })
     let data = await res.json()
     return data.msg
 }
 
+async function getLastIdGame(name) {
+    let res = await fetch(`${uri}/api/getLastIdGame`, {
+        method: 'post',
+        body: JSON.stringify({ "player": player }),
+        headers: { 'Content-type': 'application/json' }
+    })
+    let data = await res.json()
+    return data
+}
+async function getInitialInfo(idGame) {
+    let res = await fetch(`${uri}/api/getInitialInfo`, {
+        method: 'post',
+        body: JSON.stringify({
+            'idGame': idGame
+        }),
+        headers: { 'Content-type': 'application/json' }
+    })
+    let data = await res.json()
+    return data
+}
+async function changeTurnDB(idGame) {
+    await fetch(`${uri}/api/changeTurn`, {
+        method: 'post',
+        body: JSON.stringify({ 'idGame': idGame }),
+        headers: { 'Content-type': 'application/json' }
+    })
+}
+
+async function getMatrix(idGame) {
+    let res = await fetch(`${uri}/api/getMatrix`, {
+        method: 'post',
+        body: JSON.stringify({ 'idGame': idGame }),
+        headers: { 'Content-type': 'application/json' }
+    })
+    let data = await res.json()
+    return data
+}
+async function thereIsAWinner(idGame) {
+    let res = await fetch(`${uri}/api/thereIsAWinner`, {
+        method: 'post',
+        body: JSON.stringify({ 'idGame': idGame }),
+        headers: { 'Content-type': 'application/json' }
+    })
+    let data = await res.json()
+    return data.winner
+}
+async function finishGame(idGame) {
+    let res = await fetch(`${uri}/api/finishgame`, {
+        method: 'post',
+        body: JSON.stringify({ 'idGame': idGame }),
+        headers: { 'Content-type': 'application/json' }
+    })
+}
+async function getTurnAndStillPlaying(idGame) {
+    let res = await fetch(`${uri}/api/getTurnAndStillPlaying`, {
+        method: 'post',
+        body: JSON.stringify({ 'idGame': idGame }),
+        headers: { 'Content-type': 'application/json' }
+    })
+    let data = await res.json()
+    return data
+}
+
+async function insertCheckerDB(idGame, index) {
+    await fetch(`${uri}/api/insertChecker`, {
+        method: 'post',
+        body: JSON.stringify({
+            "idGame": idGame,
+            "index": index
+        }),
+        headers: { 'Content-type': 'application/json' }
+    })
+}
 export {
     createMatrix,
     buscarFondo,
     checkWin,
     checkFullBoard,
-    IAMove
+    IAMove,
+    getLastIdGame,
+    getInitialInfo,
+    changeTurnDB,
+    getMatrix,
+    thereIsAWinner,
+    getTurnAndStillPlaying,
+    insertCheckerDB,
+    finishGame
+
 }

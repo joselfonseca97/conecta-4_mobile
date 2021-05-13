@@ -9,6 +9,7 @@ import RoomConfig from '../src/Views/RoomConfig'
 import RoomNavigator from '../src/Views/RoomNavigator';
 import Session from '../src/Views/Session';
 import PlayerVSpc from '../src/Views/PlayerVSpc'
+import onlineGame from '../src/Views/OnlineGame'
 const Stack = createStackNavigator();
 
 export default function App() {
@@ -51,6 +52,10 @@ export default function App() {
         <Stack.Screen
           name='PlayerVSpc'
           component={PlayerVSpc}
+        />
+        <Stack.Screen
+        name='OnlineGame'
+        component={onlineGame}
         />
       </Stack.Navigator>
     </NavigationContainer>

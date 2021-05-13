@@ -1,7 +1,11 @@
 import fetch from 'node-fetch'
 import { Alert } from 'react-native'
+import Constants from "expo-constants";
 
-const baseURL = 'http://10.0.2.2:4000'
+const { manifest } = Constants;
+
+//const baseURL = 'http://10.0.2.2:4000'
+const baseURL = `http://${manifest.debuggerHost.split(':').shift()}:4000`
 //const baseURL = 'http://localhost:4000'
 
 /////// METODOS DENTRO DE SALA ////////
