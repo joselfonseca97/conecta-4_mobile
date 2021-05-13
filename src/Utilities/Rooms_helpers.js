@@ -161,6 +161,72 @@ const eliminarSessionBD = async (idSala, jugador1, jugador2) => {
     }
 }
 
+/***/
+const getInvSesionesBD = async (idSala, jugador) => {
+    const url = baseURL + '/api/getInvitacionesSesiones';
+    const body = { "idSala": idSala, "jugador": jugador };
+
+    try {
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(body)
+        });
+        let json = await response.json();
+        return json;
+    } catch (error) {
+        Alert.alert("No se ha podido actualizar las invitaciones");
+        return 0;
+    }
+}
+
+/**/
+const getSesionActivaBD = async (idSala, jugador1, jugador2) => {
+    const url = baseURL + '/api/getSesionActiva'
+    const body = { "idSala": idSala, "jugador1": jugador1, "jugador2": jugador2 }
+    try {
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(body)
+        });
+        let json = await response.json();
+        return json.activa;
+    } catch (error) {
+        return 0;
+    }
+}
+
+const activarSesionBD = async (estado, idSala, jugador1, jugador2) => {
+    const url = baseURL + '/api/activarSesion'
+    const body = {
+        "estado": estado, "idSala": idSala,
+        "jugador1": jugador1, "jugador2": jugador2
+    }
+    try {
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(body)
+        });
+        let json = await response.json();
+        console.log(json);
+        return json.estado;
+    } catch (error) {
+        return 0;
+    }
+}
+
+
 /////// METODOS FUERA DE SALA ////////
 
 /**/
@@ -281,6 +347,10 @@ export {
     cerrarSalaBD,
     eliminarInvitacionBD,
     getUsuariosEnSalaBD,
+    /* sesiones */
     crearSessionBD,
-    eliminarSessionBD
+    eliminarSessionBD,
+    getInvSesionesBD,
+    getSesionActivaBD,
+    activarSesionBD
 };

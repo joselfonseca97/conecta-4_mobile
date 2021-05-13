@@ -15,8 +15,7 @@ import {
     eliminarSessionBD,
     getInvSesionesBD,
     getSesionActivaBD,
-    cerrarSalaBD,
-    activarSesionBD
+    cerrarSalaBD
 } from '../Utilities/Rooms_helpers'
 
 export default class Rooms extends React.Component {
@@ -36,8 +35,9 @@ export default class Rooms extends React.Component {
             jugadoresEnSala: [],
             showAlert2: false,
 
-            /* invitaciones a session */
-            invitaciones: []
+            /* para las invitaciones */
+            invitaciones: [],
+            /* showAlert3: false */
         };
     }
 
@@ -83,6 +83,30 @@ export default class Rooms extends React.Component {
     }
 
 
+    crearSession = async (invitado) => {
+        /* this.cambiarEstadoSpinner('Enviando invitación...')
+        const creada = await crearSessionBD(this.state.idRoom, this.state.usuario, invitado);
+        this.cambiarEstadoSpinner('')
+        if (creada === 0) {
+            this.cambiarEstadoAlerta('Intente nuevamente')
+            return;
+        }
+        this.setState({ msj: invitado }) // Guarda el nombre para eliminar sesion si le da en cancelar
+        this.setState({ showAlert2: true })
+        //this.esperarAceptacion(); */
+    }
+
+
+    eliminarSession = async () => {
+        const eliminada = await eliminarSessionBD(this.state.idRoom, this.state.usuario, this.state.msj);
+        if (eliminada === 0) {
+            this.cambiarEstadoAlerta('Intente de nuevo')
+            return;
+        }
+        this.setState({ showAlert2: false })
+    }
+
+    /**/
     actualizarInvitacionesSessiones = async () => {
         this.cambiarEstadoSpinner('Actualizando invitaciones...')
         // Obtiene invitaciones desde base de datos
@@ -95,67 +119,22 @@ export default class Rooms extends React.Component {
         }
     }
 
-    /**/
-    crearSession = async (invitado) => {
-        this.cambiarEstadoSpinner('Enviando invitación...')
-        const creada = await crearSessionBD(this.state.idRoom, this.state.usuario, invitado);
-        this.cambiarEstadoSpinner('')
-        if (creada === 0) {
-            this.cambiarEstadoAlerta('Intente nuevamente')
-            return;
-        }
-        // Guarda el nombre para eliminar sesion si le da en cancelar
-        this.setState({ msj: invitado, showAlert2: true })
-        this.esperarAceptacion(invitado);
-    }
-
-
-    /**/
-    esperarAceptacion = async (invitador) => {
-        var counter = setInterval(async () => {
-            const activa = await getSesionActivaBD(this.state.idRoom, this.state.usuario, invitador);
-            console.log("jug1: " + this.state.usuario + " jug2: " + invitador + " activa: " + activa);
-            if (activa === true) {
-                clearInterval(counter);
+    /** probar */
+    esperarAceptacion = async () => {
+        /* var counter = setInterval(async () => {
+            const activa = await getSesionActivaBD(this.state.idSala, this.state.msj, this.state.usuario);
+            if (activa === 1) {
                 this.enviarASesion();
-            } else if (!this.state.showAlert2) { // si se quita la alerta es porque cancela
                 clearInterval(counter);
+                return;
             }
-
-        }, 1000);
-
+        }, 1000); */
     }
-
-
-    aceptarUnirseASesion = async (invitador, estado) => {
-        console.log(invitador + estado + this.state.usuario);
-        /* */
-        this.cambiarEstadoSpinner('Uniéndose a la sesión...');
-        var estado = await activarSesionBD(estado, this.state.idRoom, invitador, this.state.usuario);
-        this.cambiarEstadoSpinner('');
-        console.log(estado);
-        if(estado === 1) {
-            this.enviarASesion();
-        } else {
-            this.cambiarEstadoAlerta('Intente unirse de nuevo a la sesión.');
-        }
-    }
-
-    eliminarSession = async () => {
-        const eliminada = await eliminarSessionBD(this.state.idRoom, this.state.usuario, this.state.msj);
-        if (eliminada === 0) {
-            this.cambiarEstadoAlerta('Intente de nuevo')
-            return;
-        }
-        this.setState({ showAlert2: false })
-    }
-
 
     enviarASesion = () => {
         console.log("enviar a pantalla");
         //this.props.navigation.navigate('Session')
     }
-
 
     cerrarSala = async () => {
         //const deleted = await cerrarSalaBD(this.state.idRoom)
@@ -177,9 +156,6 @@ export default class Rooms extends React.Component {
                         style={styles.imageAvatarPrincipal}
                         source={this.getAvatarImage(this.state.avatar_id)}
                     />
-                    {/* Código de sala */}
-                    <Text style={styles.codigoSala}>Código de sala: {this.state.idRoom}</Text>
-
                     {/* Nombre del jugador */}
                     <Text style={styles.textAvatarPrincipal}>{this.state.nombre}</Text>
 
@@ -188,10 +164,13 @@ export default class Rooms extends React.Component {
                         style={styles.image}
                         source={require('../Assets/text.gif')}
                     />
+                    {/* Código de sala */}
+                    <Text style={styles.codigoSala}>Código de sala: {this.state.idRoom}</Text>
 
                     {/* Usuarios en sala */}
                     <View style={styles.viewScrollOnRoom}>
-                        <Text style={styles.texto2}>Jugadores en sala</Text>
+                        {/* <Text style={styles.texto2}>Jugadores en sala</Text> */}
+
 
                         <ScrollView
                             horizontal
@@ -214,7 +193,7 @@ export default class Rooms extends React.Component {
                                         <Avatar
                                             style={styles.imageAvatar}
                                             source={this.getAvatarImage(object.avatar_id)}
-                                            onPress={async () => { this.crearSession(object.usuario) }}
+                                            onPress={this.crearSession(object.usuario)}
                                         />
                                         <Text style={styles.textAvatar}>{object.nombre}</Text>
                                     </View>
@@ -231,62 +210,58 @@ export default class Rooms extends React.Component {
                         </TouchableOpacity>
                     </View>
 
-
-                    {/* Invitaciones sesiones */}
-                    <View style={styles.viewScrollOnSession}>
-
-                        <Text style={styles.texto2}>Sesiones</Text>
-
-                        <ScrollView
-                            vertical
-                            style={styles.scrollViewStyle2}
-                        >
-                            {
-                                size(this.state.invitaciones) == 0 && (
-                                    <Input
-                                        style={styles.inputStyle}
-                                        placeholder={" No tienes invitaciones"}
-                                        placeholderTextColor={'black'}
-                                        leftIcon={{ type: 'font-awesome', name: 'minus' }}
-                                        editable={false}
-                                    />
-                                )
-                            }
-                            {
-                                map(this.state.invitaciones, (object, index) => (
-                                    <TouchableOpacity
-                                        key={index}
-                                        onPress={() => { this.aceptarUnirseASesion(object.usuario, 1) }}
-                                    >
-                                        <Input
-                                            style={styles.inputStyle}
-                                            placeholder={` ${object.nombre} quiere crear una sesión!`}
-                                            placeholderTextColor={'black'}
-                                            leftIcon={{ type: 'font-awesome', name: 'user' }}
-                                            editable={false}
-                                        />
-                                    </TouchableOpacity>
-                                ))
-                            }
-                        </ScrollView>
-
-                        {/* Botones */}
-                        <TouchableOpacity
-                            style={styles.button2}
-                            onPress={() => this.actualizarInvitacionesSessiones()}
-                        >
-                            <Text style={styles.buttonText2}>Actualizar Sesiones</Text>
-                        </TouchableOpacity>
-                    </View>
-
+                    {/* Botones */}
                     <TouchableOpacity
-                        style={styles.button2}
-                        onPress={async () => { this.cerrarSala() }} // check
+                        style={styles.button}
+                        onPress={this.actualizarInvitacionesSessiones}
                     >
-                        <Text style={styles.buttonText2}>Salir de sala</Text>
+                        <Text style={styles.buttonText}>Actualizar Sesiones</Text>
                     </TouchableOpacity>
 
-                    {/* Alerta para aceptar invitaciones a sesiones */}
+                    {/* <ScrollView
+                        vertical
+                        style={styles.scrollViewStyle2}
+                    >
+                        {
+                            size(this.state.invitaciones) == 0 && (
+                                <Input
+                                    style={styles.inputStyle}
+                                    placeholder={" No tienes invitaciones"}
+                                    placeholderTextColor={'black'}
+                                    leftIcon={{ type: 'font-awesome', name: 'minus' }}
+                                    editable={false}
+                                />
+                            )
+                        }
+                        {
+                            map(this.state.invitaciones, (object, index) => (
+                                <TouchableOpacity
+                                    key={index}
+                                    onPress={async () => {
+                                        this.setState({
+                                            msj: object.usuario, // guarda el invitador
+                                            showAlert3: true
+                                        });
+                                    }}
+                                >
+                                    <Input
+                                        style={styles.inputStyle}
+                                        placeholder={` ${object.nombre} quiere crear una sesión!`}
+                                        placeholderTextColor={'black'}
+                                        leftIcon={{ type: 'font-awesome', name: 'user' }}
+                                        editable={false}
+                                    />
+                                </TouchableOpacity>
+                            ))
+                        }
+                    </ScrollView> */}
+
+                    {/* <TouchableOpacity
+                        style={styles.button}
+                        onPress={async () => { this.cerrarSala() }} // check
+                    >
+                        <Text style={styles.buttonText}>Salir de sala</Text>
+                    </TouchableOpacity> */}
 
                 </View>
 
@@ -325,6 +300,21 @@ export default class Rooms extends React.Component {
                     onCancelPressed={async () => {
                         await this.eliminarSession(); /* elimina la sessión */
                     }}
+                />
+
+                <AwesomeAlert
+                    show={this.state.showAlert3}
+                    showProgress={false}
+                    title="Sesión"
+                    message={`¿Aceptar invitación de ${this.state.msj}?`}
+                    closeOnTouchOutside={true}
+                    closeOnHardwareBackPress={true}
+                    showCancelButton={true}
+                    cancelText="No"
+                    confirmText="Sí"
+                    cancelButtonColorButtonColor="deepskyblue"
+                    onConfirmPressed={() => { this.enviarASesion() }}
+                    onCancelPressed={this.setState({ showAlert3: false })}
                 />
             </>
         );

@@ -170,7 +170,6 @@ export default class RoomConfig extends React.Component {
             this.cambiarEstadoAlerta('Intente de nuevo');
         }
         this.cambiarEstadoSpinner('')
-
     }
 
 
