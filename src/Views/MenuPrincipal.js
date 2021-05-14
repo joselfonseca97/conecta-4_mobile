@@ -53,7 +53,8 @@ class MenuPrincipal extends Component {
   }
 
   testNewGame=()=>{
-    this.props.navigation.navigate('OnlineGame',{username:this.state.username})
+    //console.log(this.state.username)
+    this.props.navigation.navigate('OnlineGame',{ username: this.state.username, tamano: 7});
   }
   render() {
 

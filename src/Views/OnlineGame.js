@@ -20,7 +20,7 @@ export default class OnlineGame extends Component {
             myName: this.props.route.params.username,
             turnColor: 0,
             matrix: '',
-            n: 0,
+            n: this.props.route.params.tamano,
             iFinished: false,
             totalMinutes: 0,
             totalSeconds: 0,
@@ -32,14 +32,18 @@ export default class OnlineGame extends Component {
         this.downCounter = null
         this.autoUpdate = null
         this.counter = null
+        
+        console.log(props)
+        console.log("n_ " + this.state.n)
+        console.log("myName_ " + this.props.route.params.username)
     }
 
     componentDidMount() {
-        this.getSize()
+        /* this.getSize() */
         this.getConfigurationGame()
     }
-    getSize = () => {
-        if (this.props.route.params.tamano) {
+    /* getSize = () => {
+        if (this.props.tamano) {
             let tam;
             switch (this.props.route.params.tamano) {
                 case "7x7":
@@ -56,7 +60,7 @@ export default class OnlineGame extends Component {
             }
             this.setState({ n: tam })
         }
-    }
+    } */
     updateMatrixNum = (indice, color) => {
         let aux = this.state.matrixNum
         aux[indice] = color

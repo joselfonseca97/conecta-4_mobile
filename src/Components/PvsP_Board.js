@@ -14,7 +14,7 @@ export default class PvsP_Board extends Component {
             size: 0
         }
     }
-    componentWillReceiveProps(nextProps) {
+    UNSAFE_componentWillReceiveProps(nextProps) {
         this.setState({ matrix: nextProps.matrix })
         this.setState({ size: nextProps.size })
     }
@@ -30,25 +30,25 @@ export default class PvsP_Board extends Component {
             this.state.matrix.map((ima, index) => {
                 if ((index % this.state.size === 0)) {
                     return (
-                        <View style={{ flexDirection: 'row' }}>
+                        <View style={{ flexDirection: 'row' }} key={index.toString()}>
                             {
                                 new Array(this.state.size).fill(0).map((im, i) => {
                                     if (this.state.matrix[index + i] === 0) {
-                                        return (<TouchableOpacity  key={i+1000} onPress={this.pressHandler.bind(this, index + i)} style={this.imageStyleContainer()}>
+                                        return (<TouchableOpacity  key={i.toString()} onPress={this.pressHandler.bind(this, index + i)} style={this.imageStyleContainer()}>
                                             <Image
                                                 style={{ flex: 1, width: null, height: null, resizeMode: 'contain' }}
                                                 source={fichaVacia}
                                             />
                                         </TouchableOpacity>)
                                     } else if (this.state.matrix[index + i] === 1) {
-                                        return (<TouchableOpacity key={i+2000} onPress={this.pressHandler.bind(this, index + i)} style={this.imageStyleContainer()}>
+                                        return (<TouchableOpacity key={i.toString()} onPress={this.pressHandler.bind(this, index + i)} style={this.imageStyleContainer()}>
                                             <Image
                                                 style={{ flex: 1, width: null, height: null, resizeMode: 'contain' }}
                                                 source={fichaRoja}
                                             />
                                         </TouchableOpacity>)
                                     } else {
-                                        return (<TouchableOpacity  key={i+3000} onPress={this.pressHandler.bind(this, index + i)} style={this.imageStyleContainer()}>
+                                        return (<TouchableOpacity  key={i.toString()} onPress={this.pressHandler.bind(this, index + i)} style={this.imageStyleContainer()}>
                                             <Image
                                                 style={{ flex: 1, width: null, height: null, resizeMode: 'contain' }}
                                                 source={fichaAmarilla}

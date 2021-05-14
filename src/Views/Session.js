@@ -9,12 +9,12 @@ const uri=`http://${manifest.debuggerHost.split(':').shift()}:4000` //comment th
 
 
 const historial = [
-    {fecha:'29/04/2021', ganador: 'Ronald', duracion: '4:30'},
+   /*  {fecha:'29/04/2021', ganador: 'Ronald', duracion: '4:30'},
     {fecha:'28/04/2021', ganador: 'Alicia', duracion: '14:36'},
     {fecha:'29/04/2021', ganador: 'Ronald', duracion: '4:30'},
     {fecha:'28/04/2021', ganador: 'Alicia', duracion: '14:36'},
     {fecha:'29/04/2021', ganador: 'Ronald', duracion: '4:30'},
-    {fecha:'28/04/2021', ganador: 'Alicia', duracion: '14:36'}
+    {fecha:'28/04/2021', ganador: 'Alicia', duracion: '14:36'} */
 ];
 
 export default class Session extends Component{
@@ -146,11 +146,11 @@ export default class Session extends Component{
                 <View style={style.sizePicker}><Picker
                     selectedValue={this.state.PickerSelectedVal}
                     onValueChange={(itemValue, itemIndex) => this.setState({ PickerSelectedVal: itemValue })} style={style.combo}>
-                    <Picker.Item label="Seleccionar Tamaño de Tablero" value="select" />
-                    <Picker.Item label="7x7" value="7x7" />
-                    <Picker.Item label="8x8" value="8x8" />
-                    <Picker.Item label="9x9" value="9x9" />
-                    <Picker.Item label="10x10" value="10x10" />
+                    <Picker.Item label="Seleccionar Tamaño de Tablero" value="select" key={"1"}/>
+                    <Picker.Item label="7x7" value="7x7" key={"13"}/>
+                    <Picker.Item label="8x8" value="8x8" key={"14"}/>
+                    <Picker.Item label="9x9" value="9x9" key={"11"}/>
+                    <Picker.Item label="10x10" value="10x10" key={"12"}/>
                 </Picker></View>
                 <Button
                     title="Juego Nuevo"
