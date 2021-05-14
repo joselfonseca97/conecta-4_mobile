@@ -174,6 +174,17 @@ async function insertCheckerDB(idGame, index) {
         headers: { 'Content-type': 'application/json' }
     })
 }
+async function setWinnerDB(idGame, name) {
+    await fetch(`${uri}/api/setWinner`, {
+        method: 'post',
+        body: JSON.stringify({
+            "idGame": idGame,
+            "name": name
+        }),
+        headers: { 'Content-type': 'application/json' }
+    })
+}
+
 export {
     createMatrix,
     buscarFondo,
@@ -187,6 +198,7 @@ export {
     thereIsAWinner,
     getTurnAndStillPlaying,
     insertCheckerDB,
-    finishGame
+    finishGame,
+    setWinnerDB
 
 }

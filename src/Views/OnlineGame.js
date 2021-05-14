@@ -26,7 +26,8 @@ export default class OnlineGame extends Component {
             totalSeconds: 0,
             downSeconds: 10,
             winner: false,
-            matrixNum: []
+            matrixNum: [],
+            isBlock: false
         }
         this.downCounter = null
         this.autoUpdate = null
@@ -80,14 +81,14 @@ export default class OnlineGame extends Component {
     }
     getConfigurationGame = async () => {
         let idGame = await gameUtil.getLastIdGame(this.state.myName)
-        this.setState({ idGame: idGame.id })
+        if(idGame.id!==-1){
+            this.setState({ idGame: idGame.id })
         let initialData = await gameUtil.getInitialInfo(idGame.id)
         this.setState({ player1: initialData.player1 })
         this.setState({ player2: initialData.player2 }),
             this.setState({ turnColor: initialData.turnColor }),
             this.setState({ matrix: initialData.matrix }),
             this.setState({ n: initialData.n })
-
         //turn
         if (this.state.myName == initialData.player1) {
             this.setState({ myColor: initialData.colorP1 })
@@ -108,6 +109,11 @@ export default class OnlineGame extends Component {
         this.startTotalTimer()
         this.startTurnTimer()
         this.updateTurn()
+        }else{
+            alert("Error al cargar el juego")
+            this.props.navigation.goBack()
+        }
+        
     }
     updateTurn = () => {
         this.autoUpdate = setInterval(async () => {
@@ -163,7 +169,6 @@ export default class OnlineGame extends Component {
             if (this.state.turnColor !== turnDB) {
                 this.changeTurnLocally()
             }
-
         }, 500)
     }
 
@@ -212,7 +217,8 @@ export default class OnlineGame extends Component {
     onMakeMove = async (index) => {
         if (!this.state.winner) {
             let fondo = await gameUtil.buscarFondo(index, this.state.n, this.state.matrixNum)
-            this.update(fondo)
+            if (!this.state.isBlock)
+                this.update(fondo)
         }
     }
 
@@ -223,6 +229,7 @@ export default class OnlineGame extends Component {
             this.setState({ matrixNum: data.matrix })
             let win = await gameUtil.checkWin(this.state.myColor, this.state.n, this.state.matrixNum)
             if (win) {
+                await gameUtil.setWinnerDB(this.state.idGame,this.state.myName)
                 this.setState({ winner: true })
                 let winnerName = await gameUtil.thereIsAWinner(this.state.idGame)
                 if (winnerName == this.state.myName) {
@@ -243,14 +250,14 @@ export default class OnlineGame extends Component {
             return false;
         }
 
-        this.isBlock = true;
         var idGame = this.state.idGame
         // Validates if it is the turn of the local player
         if (this.state.turnColor === this.state.myColor) {
+            this.setState({ isBlock: true })
             this.changeTurnLocally();
             // insert checker in the index, automatically changes the turnColor in DB
             await gameUtil.insertCheckerDB(idGame, index);
-            this.isBlock = false;
+            this.setState({ isBlock: false })
             return true;
         }
         alert("Es el turno de " + this.state.turn)
