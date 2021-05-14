@@ -118,7 +118,7 @@ export default class Rooms extends React.Component {
             console.log("jug1: " + this.state.usuario + " jug2: " + invitador + " activa: " + activa);
             if (activa === true) {
                 clearInterval(counter);
-                this.enviarASesion();
+                this.enviarASesion(invitador);
             } else if (!this.state.showAlert2) { // si se quita la alerta es porque cancela
                 clearInterval(counter);
             }
@@ -136,7 +136,7 @@ export default class Rooms extends React.Component {
         this.cambiarEstadoSpinner('');
         console.log(estado);
         if (estado === 1) {
-            this.enviarASesion();
+            this.enviarASesion(invitador);
         } else {
             this.cambiarEstadoAlerta('Intente unirse de nuevo a la sesión.');
         }
