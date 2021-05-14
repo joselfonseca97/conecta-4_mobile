@@ -102,12 +102,12 @@ const getUsuariosEnSalaBD = async (idSala, username) => { /* username es para no
 }
 
 /**/
-const cerrarSalaBD = async (id) => {
-    const url = baseURL + '/api/deleteRoom';
-    const body = { "id": id };
+const salirDeSalaBD = async (idSala, username) => {
+    const url = baseURL + '/api/deleteUserFromRoom';
+    const body = { "idSala": idSala, "username": username };
     try {
         const response = await fetch(url, {
-            method: 'POST',
+            method: 'DELETE',
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
@@ -115,14 +115,35 @@ const cerrarSalaBD = async (id) => {
             body: JSON.stringify(body)
         });
         let json = await response.json();
-        return json.msj;
+        return json.deleted;
     } catch (error) {
         Alert.alert("No se ha podido cerrar la sala");
         return 0
     }
 }
 
-/* Probar */
+/* probar */
+const borrarSalaBD = async (idSala) => {
+    const url = baseURL + '/api/deleteRoom';
+    const body = { "idSala": idSala };
+    try {
+        const response = await fetch(url, {
+            method: 'DELETE',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(body)
+        });
+        let json = await response.json();
+        return json.deleted;
+    } catch (error) {
+        Alert.alert("No se ha podido cerrar la sala");
+        return 0
+    }
+}
+
+/**/
 const crearSessionBD = async (idSala, jugador1, jugador2) => {
     const url = baseURL + '/api/addSessions';
     const body = { "idSala": idSala, "jugador1": jugador1, "jugador2": jugador2 };
@@ -143,7 +164,7 @@ const crearSessionBD = async (idSala, jugador1, jugador2) => {
     }
 }
 
-/* probar */
+/**/
 const eliminarSessionBD = async (idSala, jugador1, jugador2) => {
     const url = baseURL + '/api/deleteSession';
     const body = { "idSala": idSala, "jugador1": jugador1, "jugador2": jugador2 };
@@ -164,6 +185,72 @@ const eliminarSessionBD = async (idSala, jugador1, jugador2) => {
         return 0;
     }
 }
+
+/***/
+const getInvSesionesBD = async (idSala, jugador) => {
+    const url = baseURL + '/api/getInvitacionesSesiones';
+    const body = { "idSala": idSala, "jugador": jugador };
+
+    try {
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(body)
+        });
+        let json = await response.json();
+        return json;
+    } catch (error) {
+        Alert.alert("No se ha podido actualizar las invitaciones");
+        return 0;
+    }
+}
+
+/**/
+const getSesionActivaBD = async (idSala, jugador1, jugador2) => {
+    const url = baseURL + '/api/getSesionActiva'
+    const body = { "idSala": idSala, "jugador1": jugador1, "jugador2": jugador2 }
+    try {
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(body)
+        });
+        let json = await response.json();
+        return json.activa;
+    } catch (error) {
+        return 0;
+    }
+}
+
+const activarSesionBD = async (estado, idSala, jugador1, jugador2) => {
+    const url = baseURL + '/api/activarSesion'
+    const body = {
+        "estado": estado, "idSala": idSala,
+        "jugador1": jugador1, "jugador2": jugador2
+    }
+    try {
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(body)
+        });
+        let json = await response.json();
+        console.log(json);
+        return json.estado;
+    } catch (error) {
+        return 0;
+    }
+}
+
 
 /////// METODOS FUERA DE SALA ////////
 
@@ -280,11 +367,16 @@ export {
     enviarInvitacionBD,
     obtenerInvitacionesBD,
     obtenerIdSalaBD,
+    borrarSalaBD,
     obtenerInfoUsuarioBD,
     getUsuariosConectados,
-    cerrarSalaBD,
+    salirDeSalaBD,
     eliminarInvitacionBD,
     getUsuariosEnSalaBD,
+    /* sesiones */
     crearSessionBD,
-    eliminarSessionBD
+    eliminarSessionBD,
+    getInvSesionesBD,
+    getSesionActivaBD,
+    activarSesionBD
 };

@@ -49,6 +49,13 @@ export default StyleSheet.create({
         marginRight: wp('10%'),
         marginLeft: wp('10%'),
         borderRadius: 15
+    },
+    scrollViewStyle2: {
+        backgroundColor: 'yellowgreen',
+        marginRight: wp('5%'),
+        marginLeft: wp('5%'),
+        marginBottom: wp('2'),
+        borderRadius: 2,
     }, 
     inputStyle: {
         fontWeight: 'bold',
@@ -63,19 +70,18 @@ export default StyleSheet.create({
         backgroundColor: '#0D47A1',
     },
     imageAvatarPrincipal: {
-        height: hp('15%'),
-        width: wp('25%'),
+        height: hp('12%'),
+        width: wp('22%'),
         marginLeft: 25,
-        //marginRight: 10,
         borderRadius: 10,
-        marginTop: wp('16'),
+        marginTop: wp('12'),
         backgroundColor: 'yellow'
     },
     textAvatarPrincipal: { /* texto nombre usuario */
         fontFamily: 'notoserif',
-        fontSize: 35,
-        top: hp('-6'),
-        left: wp('40'),
+        fontSize: 33,
+        top: hp('-9'),
+        left: wp('35'),
         color: 'white',  
     },
     codigoSala: {
@@ -84,38 +90,47 @@ export default StyleSheet.create({
         textAlign: 'center',
         color: 'white',
         backgroundColor: 'orangered',
-        marginLeft: '25%',
-        marginRight: '25%',
-        marginTop: '5%',
-        marginBottom: '6%'
+        left: wp('35'),
+        top: hp('-9'),
+        marginRight: hp('30'),
     },
     /* imagen texto Sala de juego */
     image: {
         alignSelf: 'center',
-        marginTop: wp('0%'),
+        top: -45,
         //marginBottom: hp('1%'),
     },
     viewScrollOnRoom:{
-        backgroundColor: 'gray',
-        borderRadius: 15,
+        backgroundColor: 'gainsboro',
+        borderRadius: 10,
         marginLeft: wp('5%'),
-        marginRight: wp('5%') 
+        marginRight: wp('5%'),
+        top: -40,
     },
     viewScrollOnline:{
         top: hp('30%'),
-        backgroundColor: 'gray',
-        borderRadius: 15,
+        backgroundColor: 'gainsboro',
+        borderRadius: 10,
         marginLeft: wp('5%'),
         marginRight: wp('5%') 
     },
     scrollViewUsuariosConectados: {
         backgroundColor: 'yellowgreen',
         alignSelf: 'center',
-        marginTop: wp('5%'),
-        marginBottom: wp('4%'),
+        marginTop: wp('2%'),
+        marginBottom: wp('2%'),
         width: wp('80%'),
         height: hp('15%'),
-        borderRadius: 3
+        borderRadius: 2
+    },
+    viewScrollOnSession: {
+        backgroundColor: 'gainsboro',
+        borderRadius: 10,
+        marginLeft: wp('5%'),
+        marginRight: wp('5%'),
+        top: -40,
+        marginTop: hp('2'),
+        height: hp('28')
     }, 
     /* avatars usuarios conectados */
     imageAvatar: {
@@ -124,7 +139,6 @@ export default StyleSheet.create({
         marginLeft: 10,
         marginRight: 5,
         borderRadius: 50,
-        marginBottom: 0,
         marginTop: 10,
         backgroundColor: 'midnightblue'
     },
@@ -135,23 +149,21 @@ export default StyleSheet.create({
         fontWeight: 'bold',
     },
     texto2: { /* texto: lista de jugadores en linea */
-        fontSize: 18,
-        color: 'white',
+        fontSize: 17,
         textAlign: 'center',
         fontWeight: 'bold',
         marginTop: wp('2%'),
-        marginBottom: wp('2%'),
         fontFamily: 'sans-serif-medium',
         fontWeight: 'bold',
     },
-    button2: { /* botones en sala */
+    button2: { /* boton en sala actualizar */
         alignItems: 'center',
-        padding: wp(2),
+        padding: wp(1),
         backgroundColor: 'green',
         marginLeft: wp('23%'),
         marginRight: wp('23%'),
         borderRadius: 15,
-        marginBottom: wp('4%'),
+        marginBottom: wp('3%'),
         /* shadow */
         elevation: 15, // Android
         

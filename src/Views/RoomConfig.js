@@ -60,9 +60,8 @@ export default class RoomConfig extends React.Component {
     eliminarInvitacion = async () => {
         /* Crea la sala en la base de datos */
         const eliminado = await eliminarInvitacionBD(this.state.idSala, this.state.usernameInv, this.state.usuario);
-        /* elimina invitacion local */
         if (eliminado === 1) {
-            this.eliminarInvitacionLocal();
+            this.eliminarInvitacionLocal(); /* elimina invitacion local */
             return true;
         }
         return false;
@@ -87,19 +86,12 @@ export default class RoomConfig extends React.Component {
 
 
     obtenerInfoUsuario = async () => {
-        const usr = this.state.usuario;
-
         /* Obtiene los datos iniciales del usuario */
+        const usr = this.state.usuario;
         const json = await obtenerInfoUsuarioBD(usr) /* nombre y id_avatar */
-        if (json === null) {
+        if (json === null)
             return null
-        }
-
-        return {
-            'usuario': usr,
-            'nombre': json.name,
-            'avatar_id': json.avatar_id
-        }
+        return { 'usuario': usr, 'nombre': json.name, 'avatar_id': json.avatar_id };
     }
 
 
@@ -170,7 +162,6 @@ export default class RoomConfig extends React.Component {
             this.cambiarEstadoAlerta('Intente de nuevo');
         }
         this.cambiarEstadoSpinner('')
-
     }
 
 
