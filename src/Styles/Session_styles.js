@@ -49,6 +49,10 @@ export default StyleSheet.create({
     lblOffline:{
         color: 'red',
         fontSize: wp(4),
+    },
+    sizePicker: {
+        width: '100%',
+        backgroundColor:'rgba(255,255,255,0.3)'
     }
 
 })

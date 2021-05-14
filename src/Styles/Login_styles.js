@@ -48,5 +48,12 @@ export default StyleSheet.create({
         width:'85%',
         maxHeight:'50%',
         justifyContent:'space-evenly'
+    },
+    sizePicker: {
+
+        width: wp(55),
+        height: hp(5),
+        alignSelf: "flex-end",
+        backgroundColor:'rgba(255,255,255,0.3)'
     }
 })

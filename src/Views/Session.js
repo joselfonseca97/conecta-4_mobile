@@ -1,5 +1,5 @@
 import React, {Component, useState} from 'react'
-import { View, StyleSheet, Text, Button, FlatList,Image } from 'react-native'
+import {View, StyleSheet, Text, Button, FlatList, Image, Picker} from 'react-native'
 import style from '../Styles/Session_styles'
 
 const historial = [
@@ -12,6 +12,12 @@ const historial = [
 ];
 
 export default class Session extends Component{
+    constructor(props) {
+        super(props);
+        this.state = {
+            PickerSelectedVal: ''
+        };
+    }
 
     render (){
         return(
@@ -33,13 +39,13 @@ export default class Session extends Component{
                         style={style.iconUser}
                         source={require('../Assets/avatar_tadpole.png')}
                     />}
-                    {'\t\t\t'}Ronald {'\t\t\t\t\t\t\t\t\t\t\t\t'} {<Text style={style.lblOnline}> Online </Text>}
+                    {'\t\t\t'}{this.props.route.params.username1} {<Text style={style.lblOnline}> Online </Text>}
                     {'\n\t\t\t\t\t\t'} &
                     {'\n'}
                     {<Image
                     style={style.iconUser}
                     source={require('../Assets/avatar_bee.png')}/>}
-                    {'\t\t\t'} Alicia {'\t\t\t\t\t\t\t\t\t\t\t\t'} {<Text style={style.lblOffline}> Offline </Text>}</Text>
+                    {'\t\t\t'} {this.props.route.params.username2} {<Text style={style.lblOffline}> Offline </Text>}</Text>
             </View>
             <View >
                 <Text style={style.lblHistorial}> Historial </Text>
@@ -67,6 +73,15 @@ export default class Session extends Component{
                 )}
             />
             <View style={style.btnPlay}>
+                <View style={style.sizePicker}><Picker
+                    selectedValue={this.state.PickerSelectedVal}
+                    onValueChange={(itemValue, itemIndex) => this.setState({ PickerSelectedVal: itemValue })} style={style.combo}>
+                    <Picker.Item label="Seleccionar Tamaño de Tablero" value="select" />
+                    <Picker.Item label="7x7" value="7x7" />
+                    <Picker.Item label="8x8" value="8x8" />
+                    <Picker.Item label="9x9" value="9x9" />
+                    <Picker.Item label="10x10" value="10x10" />
+                </Picker></View>
                 <Button
                     title="Juego Nuevo"
                     onPress={() => this.props.navigation.navigate('Login')}

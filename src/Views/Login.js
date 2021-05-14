@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import 'react-native';
 import 'react-native-gesture-handler';
-import { View, Text, Button, TextInput } from 'react-native'
+import {View, Text, Button, TextInput, Picker} from 'react-native'
 import style from '../Styles/Login_styles'
 import md5 from 'md5'
 import { TouchableHighlight } from 'react-native-gesture-handler';
@@ -12,7 +12,8 @@ export default class Login extends Component {
         super();
         this.state = {
             username: '',
-            password: ''
+            password: '',
+            PickerSelectedVal: ''
         }
     }
 
@@ -63,6 +64,13 @@ export default class Login extends Component {
         return (
 
             <View style={style.mainContainer}>
+                <View style={style.sizePicker}><Picker
+                    selectedValue={this.state.PickerSelectedVal}
+                    onValueChange={(itemValue, itemIndex) => this.setState({ PickerSelectedVal: itemValue })} style={style.combo}>
+                    <Picker.Item label="Seleccionar Idioma" value="select" />
+                    <Picker.Item label="English" value="ing" />
+                    <Picker.Item label="Español" value="esp" />
+                </Picker></View>
                 <Text style={style.logo} >Conecta 4!</Text>
                 <View style={style.secondaryContainer}>
                     <View>
