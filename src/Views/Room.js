@@ -180,7 +180,7 @@ export default class Rooms extends React.Component {
                         source={this.getAvatarImage(this.state.avatar_id)}
                     />
                     {/* Código de sala */}
-                    <Text style={styles.codigoSala}>Código de sala: {this.state.idRoom}</Text>
+                    <Text style={styles.codigoSala}>Código de sala #{this.state.idRoom}</Text>
 
                     {/* Nombre del jugador */}
                     <Text style={styles.textAvatarPrincipal}>{this.state.nombre}</Text>
@@ -205,7 +205,7 @@ export default class Rooms extends React.Component {
                                         style={styles.inputStyle}
                                         placeholder={"\t\t\tInvita a tus amigos a unirse\t\t\t\t\t\t\t\t\t\t\t"}
                                         placeholderTextColor={'black'}
-                                        leftIcon={{ type: 'font-awesome', name: 'users' }}
+                                        leftIcon={{ type: 'font-awesome', name: 'user-plus' }}
                                         editable={false}
                                     />
                                 )
