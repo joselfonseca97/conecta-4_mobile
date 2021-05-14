@@ -153,7 +153,7 @@ export default class Rooms extends React.Component {
 
     enviarASesion = () => {
         console.log("enviar a pantalla");
-        //this.props.navigation.navigate('Session')
+        this.props.navigation.navigate('Session',{ username1: this.state.usuario, username2: invitado});
     }
 
 
