@@ -4,9 +4,8 @@ import Constants from "expo-constants";
 
 const { manifest } = Constants;
 
-//const baseURL = 'http://10.0.2.2:4000'
-const baseURL = `http://${manifest.debuggerHost.split(':').shift()}:4000`
-//const baseURL = 'http://localhost:4000'
+//const baseURL = `http://${manifest.debuggerHost.split(':').shift()}:4000`
+const baseURL = 'https://conecta4-mobile.herokuapp.com'
 
 /////// METODOS DENTRO DE SALA ////////
 

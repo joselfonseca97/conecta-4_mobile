@@ -3,8 +3,8 @@ import fetch from 'node-fetch'
 import Constants from "expo-constants";
 import { ForceTouchGestureHandler } from 'react-native-gesture-handler';
 const { manifest } = Constants;
-const uri = `http://${manifest.debuggerHost.split(':').shift()}:4000`
-
+//const uri = `http://${manifest.debuggerHost.split(':').shift()}:4000`
+const uri = 'https://conecta4-mobile.herokuapp.com'
 async function createMatrix(n) {
     let response = await fetch(`${uri}/api/creatematrix`, {
         //let response= await fetch(`http://localhost:4000/api/creatematrix`,{
