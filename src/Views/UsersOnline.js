@@ -99,7 +99,7 @@ export default class UsersOnline extends React.Component {
                                     style={styles.inputStyle}
                                     placeholder={" No tienes amigos conectados"}
                                     placeholderTextColor={'black'}
-                                    leftIcon={{ type: 'font-awesome', name: 'user' }}
+                                    leftIcon={{ type: 'font-awesome', name: 'users' }}
                                     editable={false}
                                 />
                             )

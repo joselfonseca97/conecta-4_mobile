@@ -12,28 +12,27 @@ export default StyleSheet.create({
     },
     texto: {
         alignSelf: 'center',
-        marginTop: wp('30%'),
+        marginTop: wp('20%'),
         marginBottom: wp('3%'),
-        fontSize: wp('6'),
+        fontSize: hp('3%'),
         fontFamily: 'sans-serif-medium',
         fontWeight: 'bold',
     },
-    texto2: {
+    texto1: {
         alignSelf: 'center',
         marginBottom: wp('2%'),
-        marginTop: wp('15%'),
-        fontSize: wp('6'),
+        marginTop: wp('6%'),
+        fontSize: hp('3%'),
         fontFamily: 'sans-serif-medium',
         fontWeight: 'bold',
     },
     button: {
         alignItems: 'center',
-        padding: wp(2),
+        padding: wp('2%'),
         backgroundColor: 'deepskyblue',
-        marginTop: wp('3'),
         marginLeft: wp('25%'),
         marginRight: wp('25%'),
-        borderRadius: 30,
+        borderRadius: 10,
         /* shadow */
         elevation: 15, // Android
     },
@@ -45,7 +44,7 @@ export default StyleSheet.create({
     scrollViewStyle: {
         backgroundColor: 'gainsboro',
         marginTop: wp('3%'),
-        marginBottom: wp('55%'),
+        marginBottom: wp('20%'),
         marginRight: wp('10%'),
         marginLeft: wp('10%'),
         borderRadius: 15

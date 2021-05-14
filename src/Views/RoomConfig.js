@@ -28,9 +28,15 @@ export default class RoomConfig extends React.Component {
             msj: '',
             invitaciones: [],
             usernameInv: null,
-            index: null /* borrar invitacion al indice selecccionado */
+            index: null, /* borrar invitacion al indice selecccionado */
         };
     }
+
+
+    onChangeText = (event) => {
+        const input = parseInt(event.nativeEvent.text);
+        this.setState({ idSala: input });
+    };
 
 
     cambiarEstadoSpinner = (msj) => {
@@ -152,6 +158,26 @@ export default class RoomConfig extends React.Component {
     }
 
 
+    unirseASalaConCodigo = async () => {
+        this.cambiarEstadoSpinner('Uniendose a sala...')
+        const anadido = await this.anadirJugadorSala();
+        if (!anadido) {
+            this.cambiarEstadoSpinner('');
+            this.cambiarEstadoAlerta('La sala no existe!');
+            return;
+        }
+        const obj = await this.obtenerInfoUsuario();
+        if (obj === null) {
+            this.cambiarEstadoSpinner('');
+            this.cambiarEstadoAlerta('No se pudo unir a la sala');
+            return
+        }
+        this.cambiarEstadoSpinner('');
+        obj['idSala'] = this.state.idSala;
+        this.props.navigation.navigate('RoomNavigator', obj);
+    }
+
+
     actualizarInvitaciones = async () => {
         this.cambiarEstadoSpinner('Actualizando invitaciones...')
         /* Obtiene invitaciones desde base de datos */
@@ -180,7 +206,24 @@ export default class RoomConfig extends React.Component {
                     </TouchableOpacity>
 
                     {/* Invitaciones */}
-                    <Text style={styles.texto2}>Unirte a sala por invitación</Text>
+                    <Text style={styles.texto1}>O bien ingrese un código</Text>
+                    <Input
+                        style={styles.inputStyle}
+                        placeholder={" Código de sala"}
+                        leftIcon={{ type: 'font-awesome', name: 'hashtag' }}
+                        keyboardType={"number-pad"}
+                        onChange={text => this.onChangeText(text)}
+                        value={this.state.value}
+                    />
+                    <TouchableOpacity
+                        style={styles.button}
+                        onPress={async () => { this.unirseASalaConCodigo() }}
+                    >
+                        <Text style={styles.buttonText}>Unirme</Text>
+                    </TouchableOpacity>
+
+                    {/* Invitaciones */}
+                    <Text style={styles.texto1}>Unirte a sala por invitación</Text>
 
                     {/* Boton actualizar invitaciones */}
                     <TouchableOpacity
