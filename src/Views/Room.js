@@ -15,7 +15,8 @@ import {
     eliminarSessionBD,
     getInvSesionesBD,
     getSesionActivaBD,
-    cerrarSalaBD,
+    salirDeSalaBD,
+    borrarSalaBD,
     activarSesionBD
 } from '../Utilities/Rooms_helpers'
 
@@ -134,7 +135,7 @@ export default class Rooms extends React.Component {
         var estado = await activarSesionBD(estado, this.state.idRoom, invitador, this.state.usuario);
         this.cambiarEstadoSpinner('');
         console.log(estado);
-        if(estado === 1) {
+        if (estado === 1) {
             this.enviarASesion();
         } else {
             this.cambiarEstadoAlerta('Intente unirse de nuevo a la sesión.');
@@ -153,19 +154,20 @@ export default class Rooms extends React.Component {
 
     enviarASesion = () => {
         console.log("enviar a pantalla");
-        //this.props.navigation.navigate('Session')
+        this.props.navigation.navigate('Session')
     }
 
 
-    cerrarSala = async () => {
-        //const deleted = await cerrarSalaBD(this.state.idRoom)
-        //console.log('deleted '+ deleted)
-        /* if (deleted === 1) {
-            this.props.navigation.navigate('MenuPrincipal');
+    salirDeSala = async () => {
+        this.cambiarEstadoSpinner("Saliendo....");
+        const deleted = await salirDeSalaBD(this.state.idRoom, this.state.usuario);
+        const deleted2 = await borrarSalaBD(this.state.idRoom);
+        this.cambiarEstadoSpinner("");
+        if (deleted === 1 && deleted2 === 1) {
+            this.props.navigation.navigate('RoomConfig');
         } else {
-            console.log('No se pudo cerrar la sala')
-        } */
-        this.props.navigation.navigate('RoomConfig');
+            this.cambiarEstadoAlerta("Algo salió mal...");
+        }
     }
 
     render() {
@@ -281,7 +283,7 @@ export default class Rooms extends React.Component {
 
                     <TouchableOpacity
                         style={styles.button2}
-                        onPress={async () => { this.cerrarSala() }} // check
+                        onPress={async () => { this.salirDeSala() }} // check
                     >
                         <Text style={styles.buttonText2}>Salir de sala</Text>
                     </TouchableOpacity>
