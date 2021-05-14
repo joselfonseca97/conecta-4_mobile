@@ -26,6 +26,11 @@ export default class Session extends Component{
         };
     }
 
+    componentDidMount() {
+        this.startUserAccept();
+        this.loadInvitaciones();
+    }
+
     addInvitation = async () => {
         const respuesta =  await fetch(`${uri}/api/addInvitation`, {
             method: 'post',
@@ -52,7 +57,6 @@ export default class Session extends Component{
         var myUserName = this.props.route.params.username1;
         // Cada segundos verifica si el otro jugador aceptó la solicitud
         setInterval(async () => {
-            this.loadInvitaciones()
             // REturns -1 if there is no online game created
             var idGame = await gameUtil.getLastIdGame(myUserName);
             if (idGame !== -1) {
@@ -71,7 +75,7 @@ export default class Session extends Component{
             headers: { 'Content-type': 'application/json' }
         })
         const data = await respuesta.json()           //getting data from backend
-        if (data !== 0){
+        if (data.msg !== 0){
             alert(
                 "¿Vamos a jugar?",
                 [
@@ -95,7 +99,7 @@ export default class Session extends Component{
                 { <Button
                     color="#ff0000"
                     title={'Abandonar'}
-                    onPress={() => { this.props.navigation.navigate('Login'); }}>
+                    onPress={() => { this.props.navigation.navigate('Room'); }}>
                 </Button>}</Text>
             </View>
 
@@ -156,7 +160,7 @@ export default class Session extends Component{
                 <Button
                     title={'Salir'}
                     color="#000000"
-                    onPress={() => { this.props.navigation.navigate('Rooms'); }}>
+                    onPress={() => this.props.navigation.goBack()} >
                 </Button>
             </View>
         </View>
