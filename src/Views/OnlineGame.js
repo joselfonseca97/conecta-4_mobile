@@ -2,9 +2,9 @@ import React from 'react'
 import { Component } from 'react';
 import { View, Text, ImageBackground, Button } from 'react-native'
 import Board from '../Components/PvsP_Board'
-const gameUtil = require('../Utilities/Game')
 import style from '../Styles/playerVSplayer_styles'
 const backGroundImagen = require('../Assets/game_background.jpg')
+const gameUtil = require('../Utilities/Game')
 
 
 export default class OnlineGame extends Component {
@@ -20,7 +20,7 @@ export default class OnlineGame extends Component {
             myName: this.props.route.params.username,
             turnColor: 0,
             matrix: '',
-            n: 7,
+            n: 0,
             iFinished: false,
             totalMinutes: 0,
             totalSeconds: 0,
@@ -28,11 +28,34 @@ export default class OnlineGame extends Component {
             winner: false,
             matrixNum: []
         }
-    }
-    componentDidMount() {
-        this.getConfigurationGame()
+        this.downCounter = null
+        this.autoUpdate = null
+        this.counter = null
     }
 
+    componentDidMount() {
+        this.getSize()
+        this.getConfigurationGame()
+    }
+    getSize = () => {
+        if (this.props.route.params.tamano) {
+            let tam;
+            switch (this.props.route.params.tamano) {
+                case "7x7":
+                    tam = 7
+                    break
+                case "8x8":
+                    tam = 8
+                    break
+                case "9x9":
+                    tam = 9
+                    break
+                default:
+                    tam = 10
+            }
+            this.setState({ n: tam })
+        }
+    }
     updateMatrixNum = (indice, color) => {
         let aux = this.state.matrixNum
         aux[indice] = color
@@ -41,6 +64,13 @@ export default class OnlineGame extends Component {
     buscarFondo = (index) => {
         let indice = gameUtil.buscarFondo(index, this.state.size, this.state.matrix)
         return indice
+    }
+    onFinishGame = () => {
+        this.setState({ winner: true })
+        clearInterval(this.downCounter)
+        clearInterval(this.counter)
+        clearInterval(this.autoUpdate)
+        this.props.navigation.goBack()
     }
 
     createMatrix = async () => {
@@ -58,13 +88,13 @@ export default class OnlineGame extends Component {
             this.setState({ matrix: initialData.matrix }),
             this.setState({ n: initialData.n })
 
-        //color
+        //turn
         if (this.state.myName == initialData.player1) {
             this.setState({ myColor: initialData.colorP1 })
         } else {
             this.setState({ myColor: initialData.colorP2 })
         }
-        //turn
+        //color
         if (initialData.turnColor == this.state.myColor) {
             this.setState({ turn: this.state.myName })
         } else {
@@ -79,10 +109,10 @@ export default class OnlineGame extends Component {
         this.startTurnTimer()
         this.updateTurn()
     }
-    updateTurn=()=> {
-        let autoUpdate = setInterval(async () => {
+    updateTurn = () => {
+        this.autoUpdate = setInterval(async () => {
             if (this.state.winner) {
-                clearInterval(autoUpdate)
+                clearInterval(this.autoUpdate)
                 return
             }
 
@@ -93,7 +123,9 @@ export default class OnlineGame extends Component {
             if (winner == "abandone") {
                 await gameUtil.finishGame(this.state.idGame)
                 this.setState({ winner: true })
-
+                clearInterval(this.downCounter)
+                clearInterval(this.counter)
+                clearInterval(this.autoUpdate)
                 if (this.setState.player1 === this.state.myName) {
                     msj = this.state.player2
                 } else {
@@ -104,6 +136,9 @@ export default class OnlineGame extends Component {
             }
             if (winner == "empate") {
                 this.setState({ winner: true })
+                clearInterval(this.downCounter)
+                clearInterval(this.counter)
+                clearInterval(this.autoUpdate)
                 await gameUtil.finishGame(this.state.idGame)
                 alert("Juego finalizado en empate")
                 return
@@ -117,26 +152,36 @@ export default class OnlineGame extends Component {
                 } else {
                     alert("Usted ha perdido la partida")
                 }
+                clearInterval(this.downCounter)
+                clearInterval(this.counter)
+                clearInterval(this.autoUpdate)
                 return
             }
 
             let data = await gameUtil.getTurnAndStillPlaying(this.state.idGame)
-            console.log(data.turnColor)
-            //let turnDB = data.turnColor
-            //if (this.state.turnColor !== turnDB) {
-               // this.changeTurnLocally()
-            //}
+            let turnDB = data.turnColor
+            if (this.state.turnColor !== turnDB) {
+                this.changeTurnLocally()
+            }
 
-        }, 5000)
+        }, 500)
     }
 
     changeTurnLocally() {
-        (this.state.turnColor == this.state.player1) ? this.setState({ turn: this.state.player2 }) : this.setState({ turn: this.player1 })
-            (this.state.turnColor == 1) ? this.setState({ turnColor: 2 }) : this.setState({ turnColor: 1 })
+        if (this.state.turn == this.state.player1) {
+            this.setState({ turn: this.state.player2 })
+        } else {
+            this.setState({ turn: this.state.player1 })
+        }
+        if (this.state.turnColor == 1) {
+            this.setState({ turnColor: 2 })
+        } else {
+            this.setState({ turnColor: 1 })
+        }
         this.setState({ downSeconds: 10 })
     }
     startTotalTimer = () => { //TOTAL PLAYTIME
-        let counter = setInterval(() => {
+        this.counter = setInterval(() => {
             if (!this.state.winner) { //Time pauses if there is a winner
 
                 if (this.state.totalSeconds === 59) {
@@ -151,10 +196,11 @@ export default class OnlineGame extends Component {
     }
 
     startTurnTimer = () => { //TOTAL PLAYTIME
-        let downCounter = setInterval(async () => {
+        this.downCounter = setInterval(async () => {
             if (!this.state.winner) { //Time pauses if there is a winner
                 if (this.state.downSeconds === 0) {
                     await gameUtil.changeTurnDB(this.state.idGame)
+                    this.setState({ downSeconds: 10 })
                 }
                 else {
                     this.setState({ downSeconds: this.state.downSeconds - 1 })
@@ -165,8 +211,8 @@ export default class OnlineGame extends Component {
 
     onMakeMove = async (index) => {
         if (!this.state.winner) {
-            let fondo = gameUtil.buscarFondo(index, this.state.n, this.state.matrixNum)
-            //this.update(index)
+            let fondo = await gameUtil.buscarFondo(index, this.state.n, this.state.matrixNum)
+            this.update(fondo)
         }
     }
 
@@ -174,9 +220,16 @@ export default class OnlineGame extends Component {
         let bool = await this.insertChecker(index)
         if (bool && !this.state.winner) {
             let data = await gameUtil.getMatrix(this.state.idGame)
+            this.setState({ matrixNum: data.matrix })
             let win = await gameUtil.checkWin(this.state.myColor, this.state.n, this.state.matrixNum)
             if (win) {
                 this.setState({ winner: true })
+                let winnerName = await gameUtil.thereIsAWinner(this.state.idGame)
+                if (winnerName == this.state.myName) {
+                    alert("!Felicidades usted ha ganado!")
+                } else {
+                    alert("Lo sentimos, usted ha perdido")
+                }
             }
         }
     }

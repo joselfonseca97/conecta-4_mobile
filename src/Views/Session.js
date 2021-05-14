@@ -84,7 +84,7 @@ export default class Session extends Component{
                 </Picker></View>
                 <Button
                     title="Juego Nuevo"
-                    onPress={() => this.props.navigation.navigate('Login')}
+                    onPress={() => this.props.navigation.navigate('OnlineGame',{ username: this.props.route.params.username2, tamano: this.state.PickerSelectedVal})}
                     color="#1ab012"
                 />
                 <Button
