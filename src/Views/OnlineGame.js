@@ -1,6 +1,6 @@
 import React from 'react'
 import { Component } from 'react';
-import { View, Text } from 'react-native'
+import { View, Text, ImageBackground, Button } from 'react-native'
 import Board from '../Components/PvsP_Board'
 const gameUtil = require('../Utilities/Game')
 import style from '../Styles/playerVSplayer_styles'
@@ -30,7 +30,7 @@ export default class OnlineGame extends Component {
         }
     }
     componentDidMount() {
-        this.getconfigurationGame()
+        this.getConfigurationGame()
     }
 
     updateMatrixNum = (indice, color) => {
@@ -44,22 +44,20 @@ export default class OnlineGame extends Component {
     }
 
     createMatrix = async () => {
-        let res = await gameUtil.createMatrix(this.state.size)
+        let res = await gameUtil.createMatrix(this.state.n)
         this.setState({ matrixNum: res.matrix })
+
     }
     getConfigurationGame = async () => {
         let idGame = await gameUtil.getLastIdGame(this.state.myName)
-        this.setState({ idGame: idGame })
-        let initialData = await gameUtil.getInitialInfo(idGame)
-        this.setState({
-            player1: initialData.player1,
-            player2: initialData.player2,
-            turnColor: initialData.turnColor,
-            matrix: initialData.matrix,
-            n: initialData.n
-        })
-        let mat = await gameUtil.getMatrix(this.state.idGame)
-        this.setState({ matrixNum: mat })
+        this.setState({ idGame: idGame.id })
+        let initialData = await gameUtil.getInitialInfo(idGame.id)
+        this.setState({ player1: initialData.player1 })
+        this.setState({ player2: initialData.player2 }),
+            this.setState({ turnColor: initialData.turnColor }),
+            this.setState({ matrix: initialData.matrix }),
+            this.setState({ n: initialData.n })
+
         //color
         if (this.state.myName == initialData.player1) {
             this.setState({ myColor: initialData.colorP1 })
@@ -81,7 +79,7 @@ export default class OnlineGame extends Component {
         this.startTurnTimer()
         this.updateTurn()
     }
-    updateTurn() {
+    updateTurn=()=> {
         let autoUpdate = setInterval(async () => {
             if (this.state.winner) {
                 clearInterval(autoUpdate)
@@ -121,15 +119,15 @@ export default class OnlineGame extends Component {
                 }
                 return
             }
-            let data = gameUtil.getTurnAndStillPlaying(this.state.idGame)
-            let turnDB = data.turnColor
 
+            let data = await gameUtil.getTurnAndStillPlaying(this.state.idGame)
+            console.log(data.turnColor)
+            //let turnDB = data.turnColor
+            //if (this.state.turnColor !== turnDB) {
+               // this.changeTurnLocally()
+            //}
 
-            if (this.state.turnColor !== turnDB) {
-                this.changeTurnLocally()
-            }
-
-        }, 500)
+        }, 5000)
     }
 
     changeTurnLocally() {
@@ -155,11 +153,11 @@ export default class OnlineGame extends Component {
     startTurnTimer = () => { //TOTAL PLAYTIME
         let downCounter = setInterval(async () => {
             if (!this.state.winner) { //Time pauses if there is a winner
-                if (this.state.downSecond === 0) {
+                if (this.state.downSeconds === 0) {
                     await gameUtil.changeTurnDB(this.state.idGame)
                 }
                 else {
-                    this.setState({ downSecond: this.state.downSecond - 1 })
+                    this.setState({ downSeconds: this.state.downSeconds - 1 })
                 }
             }
         }, 1000)
@@ -168,17 +166,17 @@ export default class OnlineGame extends Component {
     onMakeMove = async (index) => {
         if (!this.state.winner) {
             let fondo = gameUtil.buscarFondo(index, this.state.n, this.state.matrixNum)
-            this.update(index)
+            //this.update(index)
         }
     }
 
     update = async (index) => {
         let bool = await this.insertChecker(index)
-        if(bool && !this.state.winner){
+        if (bool && !this.state.winner) {
             let data = await gameUtil.getMatrix(this.state.idGame)
-            let win = await gameUtil.checkWin(this.state.myColor,this.state.n,this.state.matrixNum)
-            if(win){
-                this.setState({winner:true})
+            let win = await gameUtil.checkWin(this.state.myColor, this.state.n, this.state.matrixNum)
+            if (win) {
+                this.setState({ winner: true })
             }
         }
     }
@@ -216,10 +214,10 @@ export default class OnlineGame extends Component {
                             <Text>{this.state.totalMinutes + ":" + this.state.totalSeconds}</Text>
                         </View>
                         <View style={style.boardContainer}>
-                            <Board matrix={this.state.matrixNum} size={this.state.size} onMakeMove={this.onMakeMove} />
+                            <Board matrix={this.state.matrixNum} size={this.state.n} onMakeMove={this.onMakeMove} />
                         </View>
                         <View>
-                            <Text style={style.downCounterText}>{this.state.downSecond}</Text>
+                            <Text style={style.downCounterText}>{this.state.downSeconds}</Text>
                         </View>
                     </View>
                     <View style={style.backBtn}>

@@ -52,11 +52,14 @@ class MenuPrincipal extends Component {
     }
   }
 
+  testNewGame=()=>{
+    this.props.navigation.navigate('OnlineGame',{username:this.state.username})
+  }
   render() {
 
     return (
       <View style={style.mainContainer}>
-        <Button title='a' onPress={()=>console.log(this.state.username)}/>
+        <Button title='a' onPress={this.testNewGame}/>
         <Text style={style.logo} >BIENVENIDO!</Text>
         <View style={style.secondaryContainer}>
           <View style={style.radioStyle}>
