@@ -174,6 +174,13 @@ async function insertCheckerDB(idGame, index) {
         headers: { 'Content-type': 'application/json' }
     })
 }
+async function leaveGame(idGame){
+    var response = await fetch(`${uri}/api/leaveGame`, {
+        method: 'post',
+        body: JSON.stringify({"idGame" : idGame}),
+        headers: {'Content-type': 'application/json'}
+    });
+}
 async function setWinnerDB(idGame, name) {
     await fetch(`${uri}/api/setWinner`, {
         method: 'post',
@@ -199,6 +206,7 @@ export {
     getTurnAndStillPlaying,
     insertCheckerDB,
     finishGame,
-    setWinnerDB
+    setWinnerDB,
+    leaveGame
 
 }

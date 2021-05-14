@@ -66,11 +66,12 @@ export default class OnlineGame extends Component {
         let indice = gameUtil.buscarFondo(index, this.state.size, this.state.matrix)
         return indice
     }
-    onFinishGame = () => {
+    onFinishGame = async() => {
         this.setState({ winner: true })
         clearInterval(this.downCounter)
         clearInterval(this.counter)
         clearInterval(this.autoUpdate)
+        await gameUtil.leaveGame(this.state.idGame)
         this.props.navigation.goBack()
     }
 
