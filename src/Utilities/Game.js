@@ -103,7 +103,7 @@ async function IAMove(matrix, n, cpuColor, rivalColor, level) {
 async function getLastIdGame(name) {
     let res = await fetch(`${uri}/api/getLastIdGame`, {
         method: 'post',
-        body: JSON.stringify({ "player": player }),
+        body: JSON.stringify({ "player": name }),
         headers: { 'Content-type': 'application/json' }
     })
     let data = await res.json()
@@ -160,6 +160,7 @@ async function getTurnAndStillPlaying(idGame) {
         headers: { 'Content-type': 'application/json' }
     })
     let data = await res.json()
+    //let dato= data.turnColor
     return data
 }
 

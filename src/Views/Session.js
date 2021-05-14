@@ -1,6 +1,12 @@
 import React, {Component, useState} from 'react'
 import {View, StyleSheet, Text, Button, FlatList, Image, Picker} from 'react-native'
 import style from '../Styles/Session_styles'
+import Constants from "expo-constants";
+const gameUtil = require('../Utilities/Game')
+
+const { manifest } = Constants;
+const uri=`http://${manifest.debuggerHost.split(':').shift()}:4000` //comment this if testing on PC
+
 
 const historial = [
     {fecha:'29/04/2021', ganador: 'Ronald', duracion: '4:30'},
@@ -12,11 +18,71 @@ const historial = [
 ];
 
 export default class Session extends Component{
+
     constructor(props) {
         super(props);
         this.state = {
             PickerSelectedVal: ''
         };
+    }
+
+    addInvitation = async () => {
+        const respuesta =  await fetch(`${uri}/api/addInvitation`, {
+            method: 'post',
+            body: JSON.stringify({
+                fromplayer: this.props.route.params.username1,
+                toplayer: this.props.route.params.username2,
+                fromplayeruser: this.props.route.params.username1
+            }),
+            headers: { 'Content-type': 'application/json' }
+        })
+        const data = await respuesta.json()
+        console.log("mensaje front: "+data.msg)
+        if (data.msg === 1) { //succefully sent invitation
+            alert("¡Se ha enviado una invitacion a " + this.props.route.params.username2 + "!")
+        } else if (data.msg === 2) {
+            alert("Ya has enviado una invitacion a " + this.props.route.params.username2 + "")
+        }
+        else {
+            alert("Ha ocurrido un error...")
+        }
+    }
+
+    startUserAccept () {
+        var myUserName = this.props.route.params.username1;
+        // Cada segundos verifica si el otro jugador aceptó la solicitud
+        setInterval(async () => {
+            this.loadInvitaciones()
+            // REturns -1 if there is no online game created
+            var idGame = await gameUtil.getLastIdGame(myUserName);
+            if (idGame !== -1) {
+                // Leads to the game page
+                this.props.navigation.navigate('OnlineGame',{ username: this.props.route.params.username2, tamano: this.state.PickerSelectedVal})
+            }
+        }, 400);
+    }
+
+    loadInvitaciones = async () => {
+        const respuesta =  await fetch(`${uri}/api/getInvitation`, {
+            method: "post",
+            body: JSON.stringify({
+                toplayer: this.props.route.params.username1
+            }),
+            headers: { 'Content-type': 'application/json' }
+        })
+        const data = await respuesta.json()           //getting data from backend
+        if (data !== 0){
+            alert(
+                "¿Vamos a jugar?",
+                [
+                    {text: "NO", style: "cancel"},
+                    {text: "OK", onPress: () => this.props.navigation.navigate('OnlineGame',{ username: this.props.route.params.username2, tamano: this.state.PickerSelectedVal})
+                    }
+                ],
+                { cancelable: false }
+            )
+        }
+
     }
 
     render (){
@@ -84,7 +150,7 @@ export default class Session extends Component{
                 </Picker></View>
                 <Button
                     title="Juego Nuevo"
-                    onPress={() => this.props.navigation.navigate('Login')}
+                    onPress={() => this.addInvitation()}
                     color="#1ab012"
                 />
                 <Button

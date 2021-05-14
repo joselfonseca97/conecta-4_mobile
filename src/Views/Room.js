@@ -118,7 +118,7 @@ export default class Rooms extends React.Component {
             console.log("jug1: " + this.state.usuario + " jug2: " + invitador + " activa: " + activa);
             if (activa === true) {
                 clearInterval(counter);
-                this.enviarASesion();
+                this.enviarASesion(invitador);
             } else if (!this.state.showAlert2) { // si se quita la alerta es porque cancela
                 clearInterval(counter);
             }
@@ -136,7 +136,7 @@ export default class Rooms extends React.Component {
         this.cambiarEstadoSpinner('');
         console.log(estado);
         if (estado === 1) {
-            this.enviarASesion();
+            this.enviarASesion(invitador);
         } else {
             this.cambiarEstadoAlerta('Intente unirse de nuevo a la sesión.');
         }
@@ -152,7 +152,7 @@ export default class Rooms extends React.Component {
     }
 
 
-    enviarASesion = () => {
+    enviarASesion = (invitado) => {
         console.log("enviar a pantalla");
         this.props.navigation.navigate('Session',{ username1: this.state.usuario, username2: invitado});
     }
@@ -170,10 +170,11 @@ export default class Rooms extends React.Component {
         }
     }
 
+    
     render() {
         return (
             <>
-                <View style={styles.mainContainer}>
+                <ScrollView style={styles.mainContainer}>
                     {/* Imagen de Avatar */}
                     <Avatar
                         style={styles.imageAvatarPrincipal}
@@ -290,7 +291,7 @@ export default class Rooms extends React.Component {
 
                     {/* Alerta para aceptar invitaciones a sesiones */}
 
-                </View>
+                </ScrollView>
 
                 {/* spinner y alertas */}
                 <Spinner
