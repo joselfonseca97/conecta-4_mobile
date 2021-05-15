@@ -117,6 +117,7 @@ export default class Rooms extends React.Component {
             const activa = await getSesionActivaBD(this.state.idRoom, this.state.usuario, invitador);
             console.log("jug1: " + this.state.usuario + " jug2: " + invitador + " activa: " + activa);
             if (activa === true) {
+                this.setState({ showAlert2: false });
                 clearInterval(counter);
                 this.enviarASesion(invitador);
             } else if (!this.state.showAlert2) { // si se quita la alerta es porque cancela
@@ -154,8 +155,8 @@ export default class Rooms extends React.Component {
 
     enviarASesion = (invitado) => {
         console.log("enviar a pantalla");
-        //this.props.navigation.navigate('Session',{ username1: this.state.usuario, username2: invitado});
-        this.props.navigation.navigate('OnlineGame',{ username: this.state.usuario, tamano: 7});
+        this.props.navigation.navigate('Session', { username1: this.state.usuario, username2: invitado });
+        //this.props.navigation.navigate('OnlineGame', { username: this.state.usuario, tamano: 7 });
     }
 
 
@@ -171,7 +172,7 @@ export default class Rooms extends React.Component {
         }
     }
 
-    
+
     render() {
         return (
             <>

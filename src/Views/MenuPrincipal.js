@@ -60,7 +60,6 @@ class MenuPrincipal extends Component {
 
     return (
       <View style={style.mainContainer}>
-        <Button title='a' onPress={this.testNewGame}/>
         <Text style={style.logo} >BIENVENIDO!</Text>
         <View style={style.secondaryContainer}>
           <View style={style.radioStyle}>
